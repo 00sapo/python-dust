@@ -17,13 +17,25 @@ then
   exit
 fi
 
+working_dir=$(pwd)
+cd $thisdir
+
 pyenv install $1
 
 # set python version
 pyenv local $1
 
+# upgrade pip
+pyenv exec python -m pip install -U pip
+
+if test -f "requirements.txt"
+then
+  pyenv exec python -m pip install -r requirements
+  exit
+fi
+
 # install pdm
-pyenv exec python -m pip install -U pip pdm
+pyenv exec python -m pip install -U pdm
 
 # force pdm to use PEP 582
 if test ! -d .venv
@@ -36,3 +48,4 @@ pdm use $(pyenv which python)
 
 # sync
 pdm sync
+cd $pwd

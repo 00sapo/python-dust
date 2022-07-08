@@ -26,11 +26,10 @@ allows you to install any python version on those servers in a persistent way
 (you won't need to re-install everything every times the environment is
 killed).
 
-Finally, you are not obliged to use `pdm` if you do not want to. Even though
-such feature should be improved, you can spawn a shell where the `python`
-command is binded to the version installed in this project. You can just create
+Finally, you are not obliged to use `pdm` if you do not want to. You can just create
 a `requirements.txt` file to inform the installation script to avoid `pdm`, and
-you're done: enjoy `pip`. You won't need virtualenvs at all!
+you're done: enjoy `pip`. You won't need virtualenvs at all, because all the python 
+installation is relative to your project directory!
 
 ## Installation
 
@@ -75,14 +74,19 @@ You can also get a shell where `python` is binded to your version:
 `./run.sh shell`. However, note that for now this will return your system
 shell, not the one you are actually using (i.e. it returns the `/bin/env sh`,
 not `$SHELL`, so if you're using non POSIX shells like `fish`, it can't be
-returned for now). You can use such shell as virtualenv and install everything
-with `pip`, if you like: during the installation, if a `requirements.txt` is
-detected, `pdm` is not installed.
+returned for now).
+
+### Turn Off PDM
+
+You can optionally turn off `pdm` by creating a file named `requirements.txt`
+before of the installation. Then, all the command will be executed as they are, e.g.:
+`./run.sh python -m pip install numpy` will install numpy in your project's python 
+installation.
 
 If you don't want to use PEP 582 (`__pypackages__` directory) and you still
 prefer using virtualenvs, just create a directory named `.venv` before of
 running `./install.sh`. `pdm` will use it to put the virtualenv and run code.
-Note that if you switch to the usage of regular `pip` via `./run.sh shell`, you
+Note that if you switch to the usage of regular `pip` via `requirements.txt`, you
 don't need virtualenvs at all, because all the python installation is relative
 to this directory.
 

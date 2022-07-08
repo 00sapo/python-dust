@@ -17,6 +17,10 @@ then
   if command -v pdm &> /dev/null
   then
     pdm "$@"
+  elseif test -f "requirements.txt"
+    then
+      pyenv exec "$@"
+    fi
   else
     ERROR=1
   fi

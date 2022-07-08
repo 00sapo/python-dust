@@ -31,14 +31,18 @@ It should work on any Unix-like system (Linux, Mac, etc.)
 
 * Option 1 (only Github): select the `use this template` above
 * Option 2: download the zip and uncompress it in your working directory:
-  * with jar: `curl
-  https://github.com/00sapo/pyreproduce/archive/refs/heads/main.zip
-  | jar xv`
+  * with jar:
+  ```shell
+  curl https://codeload.github.com/00sapo/pyreproduce/zip/refs/heads/main | jar xv
+  mv pyreproduce-main/* .
+  rm -r pyreproduce-main
+  ```
   * with unzip:
   ```shell
-  curl https://github.com/00sapo/pyreproduce/archive/refs/heads/main.zip -o pyreproduce.zip 
+  curl https://codeload.github.com/00sapo/pyreproduce/zip/refs/heads/main -o pyreproduce.zip 
   unzip pyreproduce.zip .
-  rm pyreproduce.zip
+  mv pyreproduce-main/* .
+  rm -r pyreproduce-main pyreproduce.zip
   ```
 
 ## Usage

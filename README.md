@@ -17,7 +17,7 @@ This approach leverages two wonderful tools:
   on the earth (or almost)
 
 This repo simply allows to automatically download and install `pyenv` and `pdm`
-inside your project. Nothing is installed outside it. Moving the project
+inside your project. Nothing is installed outside of it. Moving the project
 directory won't break anything. Removing the directory removes everything.
 
 This repo turns to be useful even for project that must be run on remote
@@ -65,6 +65,7 @@ You can execute any command inside the environment by prepending it with
 shells, `$@` means _"all the received arguments"_. So, you can give any command
 to `pdm`. Some useful commands:
 
+* `./run.sh init`
 * `./run.sh add <package>`
 * `./run.sh remove <package>`
 * `./run.sh lock`
@@ -76,13 +77,6 @@ shell, not the one you are actually using (i.e. it returns the `/bin/env sh`,
 not `$SHELL`, so if you're using non POSIX shells like `fish`, it can't be
 returned for now).
 
-### Turn Off PDM
-
-You can optionally turn off `pdm` by creating a file named `requirements.txt`
-before of the installation. Then, all the command will be executed as they are, e.g.:
-`./run.sh python -m pip install numpy` will install numpy in your project's python 
-installation.
-
 If you don't want to use PEP 582 (`__pypackages__` directory) and you still
 prefer using virtualenvs, just create a directory named `.venv` before of
 running `./install.sh`. `pdm` will use it to put the virtualenv and run code.
@@ -90,9 +84,38 @@ Note that if you switch to the usage of regular `pip` via `requirements.txt`, yo
 don't need virtualenvs at all, because all the python installation is relative
 to this directory.
 
+### `pdm` and `pip`
+
+You can optionally turn off `pdm` by creating a file named `requirements.txt`
+before the installation. Then, all the command will be executed as they are, e.g.:
+`./run.sh pip install numpy` will install numpy in your project's python 
+installation.
+
+Once you have run `./install.sh <your-python-version>`, you can switch from
+`pdm` to `pip` or from `pip` to `pdm`. 
+
+If all of them are turned on (i.e. both `__pypackages__` and `requirements.txt`
+exist), `pdm` will be used.
+
+#### `pdm` => `pip`
+
+* `./run.sh export -f requirements > requirements.txt`
+* `./run.sh run pip uninstall pdm`
+
+#### `pdm` <= `pip`
+
+* `./run.sh pip install pdm`
+* `./run.sh import requirements.txt`
+
 ## Uninstall
 
-`./uninstall.sh`
+To uninstall all the directories related to your project's Python installation,
+run:
+
+`sh uninstall.sh`
+
+This script is not tested and is not ensured that it really deletes all the
+directories created by `./install.sh`.
 
 ## Test
 

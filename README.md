@@ -40,7 +40,7 @@ It should work on any Unix-like system (Linux, Mac, etc.)
   * with unzip:
   ```shell
   curl https://codeload.github.com/00sapo/pyreproduce/zip/refs/heads/main -o pyreproduce.zip 
-  unzip pyreproduce.zip .
+  unzip pyreproduce.zip -d .
   mv pyreproduce-main/* .
   rm -r pyreproduce-main pyreproduce.zip
   ```

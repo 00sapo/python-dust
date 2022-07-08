@@ -23,7 +23,7 @@ pyenv install $1
 pyenv local $1
 
 # install pdm
-pyenv exec python -m pip install -U pdm
+pyenv exec python -m pip install -U pip pdm
 
 # force pdm to use PEP 582
 if test ! -d .venv

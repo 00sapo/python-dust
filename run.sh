@@ -2,33 +2,23 @@
 
 # POSIX-compliant script for setting up your shell
 thisdir=$(dirname $0)
-
-# check if this pyenv is already loaded
-pyenv_bin=$(which pyenv 2> /dev/null)
-should_be_pyenv_bin=$(realpath ${thisdir}/bin/pyenv)
-if test "$pyenv_bin" != "$outer_shell"
-then
-  # setup pyenv
-  export PYENV_ROOT=${thisdir}/pyenv
-  export PATH="${PYENV_ROOT}/bin:${PATH}"
-  eval "$(pyenv init -)"
-else
-  ERROR=1
-fi
+source ${thisdir}/.pyenv-source.txt
 
 # special command: shell
 if test "$1" = "shell"
 then
   pyenv shell
-  exit
-end
+fi
 
 # run the command if pdm is installed
-if command -v pdm &> /dev/null
+if test -n "$1"
 then
-  pdm $@
-else
-  ERROR=1
+  if command -v pdm &> /dev/null
+  then
+    pdm "$@"
+  else
+    ERROR=1
+  fi
 fi
 
 if test $ERROR

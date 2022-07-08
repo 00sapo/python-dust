@@ -49,26 +49,38 @@ It should work on any Unix-like system (Linux, Mac, etc.)
 
 Put this in your reproducible guide:
 
+> ## Set-up
 > 1. Prepare your environment: `./install.sh`
 > 2. Test your environment: `./run.sh python -c "import sys; print(sys.version)"`
 
 You can execute any command inside the environment by prepending it with
 `./run.sh`. Internally, `run.sh` setups `pyenv` and runs the `pdm $@`. In POSIX
 shells, `$@` means _"all the received arguments"_. So, you can give any command
-to `pdm`.
+to `pdm`. Some useful commands:
 
-You can also get a shell with `pyenv` setup with the special command `./run.sh
-shell`. However, note that for now this will return your system shell, not the
-one you are actually using (i.e. it returns the `/bin/env sh`, not `$SHELL`, so
-if you're using non POSIX shells like `fish`, it can't be returned for now).
+* `./run.sh add <package>`
+* `./run.sh remove <package>`
+* `./run.sh lock`
+* `./run.sh sync --clean`
 
-If you don't want to use PEP 582 (`__pypackages__`) directory and you still
+You can also get a shell with the `pyenv` setup by using the special command
+`./run.sh shell`. However, note that for now this will return your system
+shell, not the one you are actually using (i.e. it returns the `/bin/env sh`,
+not `$SHELL`, so if you're using non POSIX shells like `fish`, it can't be
+returned for now).
+
+If you don't want to use PEP 582 (`__pypackages__` directory) and you still
 prefer using virtualenvs, just create a directory named `.venv` before of
-running `./install.sh`. `pdm` will use it to put the virtualenv.
+running `./install.sh`. `pdm` will use it to put the virtualenv and run code.
 
 ## Uninstall
 
 `./uninstall.sh`
+
+## Test
+
+To test this project for development purpose, use the branch `develop` and test
+using the command `./test-pyreproduce.sh ./install.sh 3.8.13`
 
 # Credits
 

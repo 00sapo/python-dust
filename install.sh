@@ -7,14 +7,8 @@ LOCALREPO=${thisdir}/pyenv
 REPOSRC=https://github.com/pyenv/pyenv.git
 git clone "$REPOSRC" "$LOCALREPO" 2> /dev/null || git -C "$LOCALREPO" pull
 
-# check parent process and run setup script
-outer_shell=$(cat /proc/$PPID/comm)
-if test "$outer_shell" = fish
-then 
-  ${thisdir}/setup.fish
-else 
-  ${thisdir}/setup.sh
-fi
+# run setup script
+source ${thisdir}/.pyenv-source.txt
 
 # install the python version
 if test -z $1
@@ -38,7 +32,7 @@ then
 fi
 
 # select python version for pdm
-pdm use $(pyenv which $1)
+pdm use $(pyenv which python)
 
 # sync
 pdm sync

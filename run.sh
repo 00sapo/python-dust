@@ -13,7 +13,6 @@ fi
 # run the command if pdm is installed
 if test -n "$1"
 then
-  echo "here"
   if command -v pdm &> /dev/null
   then
     pdm "$@"

@@ -31,8 +31,9 @@ a `requirements.txt` file to inform the installation script to avoid `pdm`, and
 you're done: enjoy `pip`. You won't need virtualenvs at all, because all the python 
 installation is relative to your project directory!
 
-## Installation
+## Tutorial
 
+### Create a new project
 It should work on any Unix-like system (Linux, Mac, etc.)
 
 * Option 1 (only Github): select the `use this template` above
@@ -51,14 +52,53 @@ It should work on any Unix-like system (Linux, Mac, etc.)
   rm -r pyreproduce-main pyreproduce.zip
   ```
 
-## Usage
+### Install python
+Now, let us install Python inside the `pyenv` directory. Simply run:
+```
+./install.sh 3.8.13
+```
+This will install python 3.8.13. Any version available from pyenv can be used.
 
-Put this in your reproducible guide:
+We need to setup a project. For this, we will use `pdm` under the hood, so all
+the commands can be checked on the official `pdm` documentation. The following
+command will guide you through the setup of the project metadata, however you
+will need to correctly select your python version: always chose a python
+executable that is inside the `pyenv` directory of your project.
+```
+./run.sh init
+```
+
+### Develop
+Now, let's add some dependency:
+```
+./run.sh add numpy
+```
+
+Finally, execute some python code:
+```
+./run.sh run python -c "import numpy as np; print(np.random.rand())"
+```
+
+It should print a random number.
+
+### Distribute
+Assume that now you distribute your code and want that other researchers use
+it. You can just create a readme saying the following:
 
 > ## Set-up
-> 1. Prepare your environment: `./install.sh`
+> 1. Prepare your environment: `./install.sh 3.8.13`
 > 2. Check that the path of your python is inside the `./pyenv` directory:
 >    `./run.sh run which python`
+
+The `./install.sh` will install all the dependencies needed, including the
+correct python version.
+
+The same will work when moving your code to Google Colab or Paperspace
+Gradient, that offer you some persistent directory but don't allow you to edit
+your home file persistently (they will erase them when your environment is
+killed).
+
+## Usage
 
 You can execute any command inside the environment by prepending it with
 `./run.sh`. Internally, `run.sh` setups `pyenv` and runs the `pdm $@`. In POSIX
@@ -96,6 +136,9 @@ Once you have run `./install.sh <your-python-version>`, you can switch from
 
 If all of them are turned on (i.e. both `__pypackages__` and `requirements.txt`
 exist), `pdm` will be used.
+
+Of course, when using `pip`, you can redistribute your code exactly like when
+using `pdm`.
 
 #### `pdm` => `pip`
 

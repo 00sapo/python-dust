@@ -29,6 +29,6 @@ fi
 
 if test $ERROR
 then
-  echo "Some error happened! Have you run `install.sh`?"
+  echo "Some error happened! Have you run 'install.sh'?"
   exit 1
 fi

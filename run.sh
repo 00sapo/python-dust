@@ -7,7 +7,8 @@ source ${thisdir}/.pyenv-source.txt
 # special command: shell
 if test "$1" = "shell"
 then
-  pyenv shell
+  /bin/env sh
+  exit
 fi
 
 # run the command if pdm is installed

@@ -30,7 +30,7 @@ pyenv exec python -m pip install -U pip
 
 if test -f "requirements.txt"
 then
-  pyenv exec python -m pip install -r requirements
+  pyenv exec python -m pip install -r requirements.txt
   exit
 fi
 

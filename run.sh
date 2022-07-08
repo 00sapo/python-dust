@@ -11,16 +11,17 @@ then
   exit
 fi
 
-# run the command if pdm is installed
+# check if there is any option
 if test -n "$1"
 then
-  if command -v pdm &> /dev/null
+  # run the command with pdm if it is installed
+  if python -c "import pdm" &> /dev/null
   then
     pdm "$@"
-  elseif test -f "requirements.txt"
-    then
-      pyenv exec "$@"
-    fi
+  # run the command with pyenv if there is requirements.txt
+  elif test -f "requirements.txt"
+      then
+        pyenv exec "$@"
   else
     ERROR=1
   fi

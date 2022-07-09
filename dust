@@ -29,21 +29,22 @@ then
   exit
 fi
 
-# check if there is any option
-if test -n "$1"
-then
-  # run the command with pdm if it is installed
-  if python -c "import pdm" &> /dev/null
-  then
+# get the dust mode
+mode=$(cat .dust-mode 2>/dev/null)
+if test -z $mode; then echo "Please, set a mode and/or run ./install.sh"; exit; fi
+
+# run the command with pdm if it is installed
+case $mode in
+  "pdm")
     pdm "$@"
-  # run the command with pyenv if there is requirements.txt
-  elif test -f "requirements.txt"
-      then
-        pyenv exec "$@"
-  else
-    ERROR=1
-  fi
-fi
+    pdm export > requirements.txt 2>/dev/null
+    ;;
+  "pip")
+    pyenv exec pip "$@"
+    pyenv exec pip freeze > requirements.txt 2>/dev/null
+    ;;
+  *)
+esac
 
 if test $ERROR
 then

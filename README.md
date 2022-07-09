@@ -14,6 +14,22 @@ This is a simple repo for automatizing the setup of many projects.
 4. You want your specific setupalways ready at each Colab/Gradient startup
 5. You want that other researchers can easily use your code
 
+## TLDR
+
+### `pdm` mode
+* `./install 3.8.13`: install Python 3.8.13 in a subdirectory of your project
+* `./dust add numpy scipy`: install numpy and scipy as dependencies
+* `./dust run ipython`: run a command (`ipython`) in the environment (you can import numpy as scipy)
+* `./dust shell`: run a shell with the python version set up (cannot import numpy and scipy, but faster)
+* `./dust fly nvim`: run a command (`nvim`) with the python version set up (cannot import numpy and scipy, but faster)
+* another user `./install`: install Python 3.8.13, numpy and scipy, all in your project directory
+
+### `pip` mode
+* `./install 3.8.13`: install Python 3.8.13 in a subdirectory of your project
+* `./dust install numpy scipy`: install numpy and scipy as dependencies
+* `./dust shell`: run a shell with the python version set up (you can import numpy and scipy)
+* `./dust fly nvim`: run a command (`nvim`) with the python version set up (you can import numpy and scipy)
+* another user `./install`: install Python 3.8.13, numpy and scipy, all in your project directory
 
 ## Tutorial
 
@@ -43,12 +59,11 @@ Now, let us install Python inside the `pyenv` directory. Simply run:
 ```
 This will install python 3.8.13. Any version available from pyenv can be used.
  
-The following command will guide you through the setup of the project metadata,
-You should always chose a python executable that is inside the `pyenv`
-directory of your project, usually the number 0.
-```
-./dust init
-```
+During the installation, `pdm` will guide you through the setup of the project
+metadata, You should always chose a python executable that is inside the
+`pyenv` directory of your project, usually the number 0.
+
+After the installation, a check is performed. If it should say "OK!".
 
 ### Develop
 Now, let's add some dependency:
@@ -67,10 +82,16 @@ It should print a random number.
 Assume that now you distribute your code and want that other researchers use
 it. You can just create a readme saying the following:
 
-> ## Set-up
-> 1. Prepare your environment: `./install.sh 3.8.13`
-> 2. Check that the path of your python is inside the `./pyenv` directory:
->    `./dust run which python`
+> ### Set-up to reproduce results
+> Simply run: `./install.sh` from the repo root directory
+>
+> ### Install this repo to use it in your code
+>
+>     # with pdm
+>     pdm add git+https://github.com/<user>/<project>
+>     # with pip
+>     pip install git+https://github.com/<user>/<project>
+>
 
 The `./install.sh` will install all the dependencies needed, including the
 correct python version.
@@ -82,9 +103,9 @@ killed).
 
 ## How does this work?
 
-By cloning this repo in your project - e.g. as a git module - you provides the
-user and yourself with an easy way to setup python and its dependencies in the
-exact way as you work, so that your code is always easily reproducible.
+By using `python-dust`, you provides the user and yourself with an easy way to
+setup python and its dependencies in the exact way as you work, so that your
+code is always easily reproducible.
 
 This approach leverages two wonderful tools:
 
@@ -96,28 +117,28 @@ This approach leverages two wonderful tools:
 * [`pyenv`](https://github.com/pyenv/pyenv) which can manage any python version
   on the earth (or almost)
 
-This repo simply allows to automatically download and install `pyenv` and `pdm`
-inside your project. Nothing is installed outside of it. Moving the project
-directory won't break anything. Removing the directory removes everything.
+`python-dust` simply allows to automatically download and install `pyenv` and
+`pdm` inside your project. Nothing is installed outside of it. Moving the
+project directory won't break anything. Removing the directory removes
+everything.
 
-This repo turns to be useful even for project that must be run on remote
+This repo turns to be useful even for projects that must be run on remote
 servers or platforms such as Google Colab and Paperspace Gradient, because it
 allows you to install any python version on those servers in a persistent way
 (you won't need to re-install everything every times the environment is
 killed).
 
-Finally, you are not obliged to use `pdm` if you do not want to. You can just create
-a `requirements.txt` file to inform the installation script to avoid `pdm`, and
-you're done: enjoy `pip`. You won't need virtualenvs at all, because all the python 
-installation is relative to your project directory!
+Finally, you are not obliged to use `pdm` if you do not want to.`python-dust`
+correctly handles `pip` basic package manager. You won't need virtualenvs at
+all, because all the python installation is relative to your project directory!
 
 
 ## Usage
 
-You can execute any command inside the environment by prepending it with
-`./dust`. Internally, `dust` setups `pyenv` and runs the `pdm $@`. In POSIX-like
-shells, `$@` means _"all the received arguments"_. So, you can give any command
-to `pdm`. Some useful commands:
+Your interface to the Python installation is `./dust`. Internally, `dust`
+setups `pyenv` and runs `pdm $@` or `pip $@`. In POSIX-like shells, `$@` means
+_"all the received arguments"_. So, you can give any command to `pdm` or `pip`.
+Some useful commands for `pdm` mode:
 
 * `./dust init`
 * `./dust add <package>`
@@ -130,39 +151,35 @@ to `pdm`. Some useful commands:
 There are two modes of operating: one using `pdm` and one using `pip`.
 
 While `pdm` is the default and recommended mode for now, you can optionally
-turn it off by creating a file named `requirements.txt` before the
-installation. Then, all the command will be executed as they are, e.g.: `./dust
-pip install numpy` will install numpy in your project's python installation.
+turn it off by creating a file named `.dust-mode` and containing the string
+`pip`, right before the installation. Then, all the command will be executed as
+by putting them as argument to `pip`, e.g.: `./dust install numpy` will install
+numpy in your project's python installation.
+
+`dust` will keep a `requirements.txt` file always updated, both in `pdm` and
+`pip` modes, so that other researchers can easily interact with your code.
 
 Once you have run `./install.sh <your-python-version>`, you can switch from
-`pdm` to `pip` or from `pip` to `pdm`. 
+`pdm` to `pip` or from `pip` to `pdm`: 
 
-**If both of them are turned on (i.e. both `__pypackages__` and
-`requirements.txt` exist), `pdm` will be used.**
+1. `pdm` to `pip`: `echo pip > .dust-mode; ./install.sh`
+2. `pip` to `pdm`: `echo pdm > .dust-mode; ./install.sh`
 
-Of course, when using `pip`, you can redistribute your code exactly like when
-using `pdm`.
+Of course, when using `pip`, you can redistribute your code exactly in the same
+way as in `pdm` mode, with the only exception that to make your code easily
+usable by other programmers via `pip install git+https://<your repo>` you
+should also create a `setup.py` file.
 
-In future, when `pip` will use `pyproject.toml` file by default and will use a
+In future, if `pip` will use `pyproject.toml` file by default and will use a
 continuously updated lock file, it should become the default.
-
-#### `pdm` => `pip`
-
-To convert a project from `pdm` to `pip` mode:
-* `./dust export -f requirements > requirements.txt`
-* `./dust run pip uninstall pdm`
-
-#### `pdm` <= `pip`
-
-To convert a project from `pip` to `pdm` mode:
-* `./dust pip install pdm`
-* `./dust import requirements.txt`
 
 ### pyenv management and shells
 
 You can also run any command in the `pyenv` by using the special command `fly`.
 Using it, the arguments will be executed exactly like they are but inside a
-shell where the project's `pyenv` is correctly set-up. For instance, at a certain point of the development, you may want to have two python versions installed and switch from one to the other:
+shell where the project's `pyenv` is correctly set-up. For instance, at a
+certain point of the development, you may want to have two python versions
+installed and switch from one to the other:
 
 ```shell
 # install a new python version
@@ -175,24 +192,24 @@ shell where the project's `pyenv` is correctly set-up. For instance, at a certai
 ./dust fly pyenv local 3.8.3
 ```
 
-A similar effect is achieved by using `./dust run` in `pdm` mode or with any
-command when using `pip` mode. While for `pip` mode, the effect is exactly the
-same, `./dust run` in `pdm` mode is slower, because it runs through `pdm`
-before of setting up `pyenv`. For instance, the following commands all achieve
-the same effect:
+A similar effect is achieved by using `./dust run` in `pdm` mode, but `./dust
+run` is slower, because it runs through `pdm` before of setting up `pyenv`. For
+instance, the following commands all achieve the same effect:
 
 ```shell
 ./dust run bash # in pdm mode, slower
 ./dust fly bash # in pdm/pip mode, faster
-./dust bash     # in pip mode
 ```
 
-As in the example above, you could spawn a shell which uses your preject's
+As in the example above, you could spawn a shell which uses your project's
 python installation. However, if your shell has some init file that conflicts
 with `pyenv` (e.g. if you have `pyenv` installed in your system like me), the
 above method doesn't work to spawn a shell. Instead you should use the provided
 command: `./dust shell`, which spawns a new instance of your current shell.
 Only fish and bash supported for now.
+
+Note that when you want to run a python interpreter in `pdm` mode you should
+still use `./dust run`, otherwise `__pypackages__` is not discovered.
 
 ### virtualenv vs `__pypackages__`
 
@@ -213,7 +230,26 @@ run:
 This script is not tested and is not ensured that it really deletes all the
 directories created by `./install.sh`.
 
-## Test
+## Editors
+
+In `pdm` mode, you should inform your editor that you're using the
+`__pypackages__` directory to store the libraries. You can find some [helpful
+info
+here](https://pdm.fming.dev/latest/usage/pep582/#configure-ide-to-support-pep-582).
+
+I have not tested `pip` mode enough to give advice about editor configurations.
+
+## Why `pdm` and not `put your favorite tool here`?
+
+1. While `pip` is improving and is now able to do backtracking, it doesn't
+   ensure a lock file (requirements.txt) always up-to-date, nor the ability to
+   convert your code to a standalone pypi module uploadable to pypi.org 
+   effortless.
+2. Conda is slow, not standard and covers only a few packages
+3. poetry and Pipenv are slow
+4. pip-tools reinvent the standard
+
+## Develop
 
 To test this project for development purpose, use the branch `develop` and test
 using the command `./test-dust ./install.sh 3.8.13`

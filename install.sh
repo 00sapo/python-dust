@@ -11,10 +11,15 @@ git clone "$REPOSRC" "$LOCALREPO" 2> /dev/null || git -C "$LOCALREPO" pull
 source ${thisdir}/.pyenv-source.sh $thisdir
 
 # install the python version
-if test -z $1
+version=$1
+if test -z $version
 then
-  echo "Please, provide the Python version to be installed!"
-  exit
+  if test ! -f ${thisdir}/.python-version
+  then
+    echo "Please, provide the Python version to be installed!"
+    exit
+  fi
+  version=$(cat ${thisdir}/.python-version)
 fi
 
 working_dir=$(pwd)
@@ -26,26 +31,70 @@ pyenv install $1
 pyenv local $1
 
 # upgrade pip
-pyenv exec python -m pip install -U pip
+python -m pip install -U pip
 
-if test -f "requirements.txt"
+# set dust mode
+mode=$(cat .dust-mode 2>/dev/null)
+if test -z $mode
 then
-  pyenv exec python -m pip install -r requirements.txt
-  exit
+  mode="pdm"
+  echo $mode > .dust-mode
 fi
 
-# install pdm
-pyenv exec python -m pip install -U pdm
+# install build dependencies
+case "$mode" in
+ "pip") 
+    if test -f "requirements.txt"
+    then
+      python -m pip install -r requirements.txt;
+    fi
+    exit
+    ;;
+ "pdm")
+    # install pdm
+    python -m pip install -U pdm
 
-# force pdm to use PEP 582
-if test ! -d .venv
-then
-  mkdir __pypackages__
-fi
+    # force pdm to use PEP 582
+    if test ! -d .venv && test ! -d __pypackages__
+    then
+      mkdir __pypackages__
+    fi
 
-# select python version for pdm
-pdm use $(pyenv which python)
+    # select python version for pdm
+    pdm use $(pyenv which python)
 
-# sync
-pdm sync
+    # setup other dependencies
+    if test -f "pdm.lock"
+    then
+      pdm sync
+    elif test -f "pyproject.toml"
+    then
+      pdm lock
+      pdm sync
+    else
+      pdm init
+    fi
+    if test -f "requirements.txt"
+    then
+      pdm import -f requirements requirements.txt
+    fi
+    ;;
+  *)
+esac
+
+# installation check
+echo "-------------------"
+echo "-------------------"
+echo "Installation Check!"
+found_python=$(pyenv exec which python)
+case "$found_python" in
+  $(realpath $thisdir)/pyenv/*)
+    echo "OK!"
+    exit 0
+    ;;
+  *)
+    echo "ERROR!"
+    exit 1
+    ;;
+esac
 cd $pwd

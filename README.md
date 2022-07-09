@@ -6,21 +6,14 @@ This is a simple repo for automatizing the setup of many projects.
 
 ## Why?
 
-1. People interested in your research may not be able to code, you should try
-   to simplify technicalities as much as possible
-2. Young users that are used to run code from tools like conda, pycharm, visual
-   studio, jupyter, etc., often don't know how to set up the dependencies to
-   run your code while using only the terminal
-3. You want to use specific versions that not available on the platform you're
+1. People interested in your research may not be able to code
+2. Young users often don't know how to set up the dependencies to
+   run your code
+3. You want to use specific versions that are not available on the platform you're
    using (e.g. a server, Google Colab, Paperspace Gradient, etc.)
-4. You want your specific setup in the fastest possible way, without
-   waiting for reinstalling all tools and dependencies at each machine restart
-   (e.g. Google Colab, Paperspace Gradient, etc.)
-5. While `pip` is improving and is now able to do backtracking, it doesn't
-   ensure a lock file (requirements.txt) always up-to-date, nor the ability to
-   convert your code to a standalone pypi module uploadable to pypi.org
-6. Conda is slow and covers only a few packages, poetry and Pipenv are
-   slow, pip-tools reinvent the standard
+4. You want your specific setupalways ready at each Colab/Gradient startup
+5. You want that other researchers can easily use your code
+
 
 ## Tutorial
 
@@ -137,7 +130,7 @@ to `pdm`. Some useful commands:
 There are two modes of operating: one using `pdm` and one using `pip`.
 
 While `pdm` is the default and recommended mode for now, you can optionally
-turn off it by creating a file named `requirements.txt` before the
+turn it off by creating a file named `requirements.txt` before the
 installation. Then, all the command will be executed as they are, e.g.: `./dust
 pip install numpy` will install numpy in your project's python installation.
 
@@ -206,7 +199,7 @@ Only fish and bash supported for now.
 If you don't want to use PEP 582 (`__pypackages__` directory) and you still
 prefer using virtualenvs, just create a directory named `.venv` before of
 running `./install.sh`. `pdm` will use it to put the virtualenv and run code.
-Note that if you switch to the usage of regular `pip` via `requirements.txt`, you
+Note that if you switch to `pip` mode via `requirements.txt`, you
 don't need virtualenvs at all, because all the python installation is relative
 to this directory.
 
@@ -224,6 +217,25 @@ directories created by `./install.sh`.
 
 To test this project for development purpose, use the branch `develop` and test
 using the command `./test-dust ./install.sh 3.8.13`
+
+## Why `pdm` and not X?
+
+1. While `pip` is improving and is now able to do backtracking, it doesn't
+   ensure a lock file (requirements.txt) always up-to-date, nor the ability to
+   convert your code to a standalone pypi module uploadable to pypi.org 
+   effortless. Moreover, version constraints are hard to setup with `pip`
+2. Conda is slow and covers only a few packages, poetry and Pipenv are
+   slow, pip-tools reinvent the standard
+
+## Possible improvements
+
+* Switch of `pip`/`pdm` mode should be done based on some file
+* Python version to be installed can be taken from `.python-version`
+* In `pip` mode, provide an install and uninstall command which install packages
+  and updates requirements.txt or explore the support for project.toml
+* In `pdm` mode, keep requirements.txt updated
+* add a guide to import the project's `requirements.txt` in another project
+* Add automatic check of the installation in `install.sh`
 
 # Credits
 

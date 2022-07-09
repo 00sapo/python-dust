@@ -1,0 +1,52 @@
+#!/bin/env sh
+
+# POSIX-compliant script for setting up your shell
+thisdir=$(dirname $0)
+source ${thisdir}/.pyenv-source.sh $thisdir
+
+# special command: shell
+if test "$1" = "fly"
+then
+  "${@:2}"
+  exit
+fi
+
+if test "$1" = "shell"
+then
+  shell=$(cat /proc/$PPID/comm)
+  # removing link (e.g. sh -> /usr/bin/bash)
+  shell=$(basename $(realpath $(which $shell))) 
+  # shell_command=$(cat /proc/$PPID/cmdline)
+  if test "$shell" = "fish"
+  then
+    pyenv exec $shell -C "source ${thisdir}/.pyenv-source.fish $thisdir"
+  elif test "$shell" = "bash" 
+  then
+    pyenv exec $shell --init-file <(echo "source ${thisdir}/.pyenv-source.sh $thisdir")
+  else
+    echo "Sorry, we cannot spawn your shell: only fish and bash supported."
+  fi
+  exit
+fi
+
+# check if there is any option
+if test -n "$1"
+then
+  # run the command with pdm if it is installed
+  if python -c "import pdm" &> /dev/null
+  then
+    pdm "$@"
+  # run the command with pyenv if there is requirements.txt
+  elif test -f "requirements.txt"
+      then
+        pyenv exec "$@"
+  else
+    ERROR=1
+  fi
+fi
+
+if test $ERROR
+then
+  echo "Some error happened! Have you run 'install.sh'?"
+  exit 1
+fi

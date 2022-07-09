@@ -8,7 +8,7 @@ REPOSRC=https://github.com/pyenv/pyenv.git
 git clone "$REPOSRC" "$LOCALREPO" 2> /dev/null || git -C "$LOCALREPO" pull
 
 # run setup script
-source ${thisdir}/.pyenv-source.txt
+source ${thisdir}/.pyenv-source.sh $thisdir
 
 # install the python version
 if test -z $1

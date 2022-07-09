@@ -254,7 +254,7 @@ I have not tested `pip` mode enough to give advice about editor configurations.
 To test this project for development purpose, use the branch `develop` and test
 using the command `./test-dust ./install.sh 3.8.13`
 
-## Why `pdm` and not X?
+## Why `pdm` and not `another-tool-here`?
 
 1. While `pip` is improving and is now able to do backtracking, it doesn't
    ensure a lock file (requirements.txt) always up-to-date, nor the ability to
@@ -262,16 +262,6 @@ using the command `./test-dust ./install.sh 3.8.13`
    effortless. Moreover, version constraints are hard to setup with `pip`
 2. Conda is slow and covers only a few packages, poetry and Pipenv are
    slow, pip-tools reinvent the standard
-
-## Possible improvements
-
-* Switch of `pip`/`pdm` mode should be done based on some file
-* Python version to be installed can be taken from `.python-version`
-* In `pip` mode, provide an install and uninstall command which install packages
-  and updates requirements.txt or explore the support for project.toml
-* In `pdm` mode, keep requirements.txt updated
-* add a guide to import the project's `requirements.txt` in another project
-* Add automatic check of the installation in `install.sh`
 
 # Credits
 

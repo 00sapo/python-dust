@@ -11,10 +11,15 @@ git clone "$REPOSRC" "$LOCALREPO" 2> /dev/null || git -C "$LOCALREPO" pull
 source ${thisdir}/.pyenv-source.sh $thisdir
 
 # install the python version
-if test -z $1
+version=$1
+if test -z $version
 then
-  echo "Please, provide the Python version to be installed!"
-  exit
+  if test ! -f ${thisdir}/.python-version
+  then
+    echo "Please, provide the Python version to be installed!"
+    exit
+  fi
+  version=$(cat ${thisdir}/.python-version)
 fi
 
 working_dir=$(pwd)

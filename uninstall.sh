@@ -6,7 +6,8 @@ thisdir=$(dirname $0)
 LOCALREPO=${thisdir}/pyenv
 rm -rf ${LOCALREPO}/*
 rm -rf ${LOCALREPO}/.*
-rm -r .python-version
+rm .python-version
+rm .dust-mode
 
 # removing __pypackages__
 rm -rf __pypackages__

@@ -2,7 +2,7 @@
 
 # POSIX-compliant script for setting up your shell
 thisdir=$(dirname $0)
-source ${thisdir}/.pyenv-source.sh $thisdir
+source ${thisdir}/pyenv/pyenv-source.sh $thisdir
 
 # special command: shell
 if test "$1" = "fly"
@@ -19,10 +19,10 @@ then
   # shell_command=$(cat /proc/$PPID/cmdline)
   if test "$shell" = "fish"
   then
-    pyenv exec $shell -C "source ${thisdir}/.pyenv-source.fish $thisdir"
+    pyenv exec $shell -C "source ${thisdir}/pyenv/pyenv-source.fish $thisdir"
   elif test "$shell" = "bash" 
   then
-    pyenv exec $shell --init-file <(echo "source ${thisdir}/.pyenv-source.sh $thisdir")
+    pyenv exec $shell --init-file <(echo "source ${thisdir}/pyenv/pyenv-source.sh $thisdir")
   else
     echo "Sorry, we cannot spawn your shell: only fish and bash supported."
   fi

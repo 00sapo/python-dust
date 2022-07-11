@@ -5,10 +5,21 @@ thisdir=$(dirname $0)
 # cloning pyenv
 LOCALREPO=${thisdir}/pyenv
 REPOSRC=https://github.com/pyenv/pyenv.git
-git clone "$REPOSRC" "$LOCALREPO" 2> /dev/null || git -C "$LOCALREPO" pull
+
+cd $LOCALREPO
+  git  pull 2> /dev/null
+if test ! $?
+then
+  # cloning while keeping our files
+  git init
+  git remote add origin $REPOSRC
+  git fetch
+  git checkout origin/master -ft
+  git clone "$REPOSRC" "$LOCALREPO"
+fi
 
 # run setup script
-source ${thisdir}/.pyenv-source.sh $thisdir
+source ${thisdir}/pyenv/pyenv-source.sh $thisdir
 
 # install the python version
 version=$1

@@ -1,12 +1,24 @@
 #!/bin/env sh
 
 # POSIX-compliant script for setting up your shell
-thisdir=$(dirname $0)
+thisdir=$(realpath $(dirname $0))
 source ${thisdir}/pyenv/pyenv-source.sh $thisdir
+
+setup_pypackages() {
+  if test $1 = "pdm"
+  then
+    export PYTHONPATH="$(pdm info --packages)/lib:$PYTHONPATH"
+  fi
+}
+
+# get the dust mode
+mode=$(cat .dust-mode 2>/dev/null)
+if test -z $mode; then echo "Please, set a mode and/or run ./install.sh"; exit; fi
 
 # special command: shell
 if test "$1" = "fly"
 then
+  setup_pypackages $mode
   "${@:2}"
   exit
 fi
@@ -17,6 +29,7 @@ then
   # removing link (e.g. sh -> /usr/bin/bash)
   shell=$(basename $(realpath $(which $shell))) 
   # shell_command=$(cat /proc/$PPID/cmdline)
+  setup_pypackages $mode
   if test "$shell" = "fish"
   then
     pyenv exec $shell -C "source ${thisdir}/pyenv/pyenv-source.fish $thisdir"
@@ -28,10 +41,6 @@ then
   fi
   exit
 fi
-
-# get the dust mode
-mode=$(cat .dust-mode 2>/dev/null)
-if test -z $mode; then echo "Please, set a mode and/or run ./install.sh"; exit; fi
 
 # run the command with pdm if it is installed
 case $mode in

@@ -19,9 +19,9 @@ This is a simple repo for automatizing the setup of many projects.
 ### `pdm` mode
 * `./install 3.8.13`: install Python 3.8.13 in a subdirectory of your project
 * `./dust add numpy scipy`: install numpy and scipy as dependencies
-* `./dust run ipython`: run a command (`ipython`) in the environment (you can import numpy as scipy)
-* `./dust shell`: run a shell with the python version set up (cannot import numpy and scipy, but faster)
-* `./dust fly nvim`: run a command (`nvim`) with the python version set up (cannot import numpy and scipy, but faster)
+* `./dust run ipython`: run a command (`ipython`) in the environment
+* `./dust shell`: run a shell with the python version set up
+* `./dust fly nvim`: run a command (`nvim`) with the python version set up (same as `run`)
 * another user `./install`: install Python 3.8.13, numpy and scipy, all in your project directory
 
 ### `pip` mode
@@ -37,10 +37,10 @@ This is a simple repo for automatizing the setup of many projects.
 It should work on any Unix-like system (Linux, Mac, etc.)
 
 * Option 1 (only Github): select the `use this template` above
-* Option 2: clone and deinit
+* Option 3: clone and deinit
   ```
   git clone https://github.com/00sapo/pyenv <your-dir>
-  rm -rf <your-dir>/.git
+  rm -rf <your-dir>/.git*
   ```
 
 ### Install python

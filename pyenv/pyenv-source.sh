@@ -1,4 +1,4 @@
-thisdir=$(dirname $1)
+thisdir=$1
 
 # check if this pyenv is already loaded
 pyenv_bin=$(which pyenv 2> /dev/null)

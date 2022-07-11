@@ -1,4 +1,4 @@
-set thisdir (dirname $argv[1])
+set thisdir $argv[1]
 
 # check if this pyenv is already loaded
 set pyenv_bin (which pyenv 2> /dev/null)

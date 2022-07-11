@@ -1,22 +1,22 @@
 #!/bin/env sh
-
-thisdir=$(dirname $0)
+thisdir=$(realpath $(dirname $0))
 
 # cloning pyenv
 LOCALREPO=${thisdir}/pyenv
 REPOSRC=https://github.com/pyenv/pyenv.git
 
 cd $LOCALREPO
-  git  pull 2> /dev/null
+# cloning while keeping our files
+git init 2> /dev/null
 if test ! $?
 then
-  # cloning while keeping our files
-  git init
+  git pull 2> /dev/null
+else
   git remote add origin $REPOSRC
   git fetch
   git checkout origin/master -ft
-  git clone "$REPOSRC" "$LOCALREPO"
 fi
+cd ${thisdir}
 
 # run setup script
 source ${thisdir}/pyenv/pyenv-source.sh $thisdir
@@ -45,11 +45,11 @@ pyenv local $1
 python -m pip install -U pip
 
 # set dust mode
-mode=$(cat .dust-mode 2>/dev/null)
-if test -z $mode
+mode=$(cat ${thisdir}/.dust-mode 2>/dev/null)
+if test -n $mode
 then
   mode="pdm"
-  echo $mode > .dust-mode
+  echo $mode > ${thisdir}/.dust-mode
 fi
 
 # install build dependencies
@@ -96,7 +96,7 @@ esac
 # installation check
 echo "-------------------"
 echo "-------------------"
-echo "Installation Check!"
+echo "Installation Check:"
 found_python=$(pyenv exec which python)
 case "$found_python" in
   $(realpath $thisdir)/pyenv/*)

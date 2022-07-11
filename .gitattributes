@@ -1,0 +1,3 @@
+.gitignore merge=ours
+test-dust.sh merge=ours
+test merge=ours

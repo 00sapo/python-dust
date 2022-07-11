@@ -216,7 +216,7 @@ to this directory.
 To uninstall all the directories related to your project's Python installation,
 run:
 
-`sh uninstall.sh`
+`sh ./pyenv/uninstall.sh`
 
 This script is not tested and is not ensured that it really deletes all the
 directories created by `./install.sh`.

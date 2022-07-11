@@ -37,19 +37,10 @@ This is a simple repo for automatizing the setup of many projects.
 It should work on any Unix-like system (Linux, Mac, etc.)
 
 * Option 1 (only Github): select the `use this template` above
-* Option 2: download the zip and uncompress it in your working directory:
-  * with jar:
-  ```shell
-  curl https://codeload.github.com/00sapo/python-dust/zip/refs/heads/main | jar xv
-  mv python-dust-main/* .
-  rm -r python-dust-main
+* Option 2: clone and deinit
   ```
-  * with unzip:
-  ```shell
-  curl https://codeload.github.com/00sapo/python-dust/zip/refs/heads/main -o python-dust.zip 
-  unzip python-dust.zip -d .
-  mv python-dust-main/* .
-  rm -r python-dust-main python-dust.zip
+  git clone https://github.com/00sapo/pyenv <your-dir>
+  rm -rf <your-dir>/.git
   ```
 
 ### Install python
@@ -253,15 +244,6 @@ I have not tested `pip` mode enough to give advice about editor configurations.
 
 To test this project for development purpose, use the branch `develop` and test
 using the command `./test-dust ./install.sh 3.8.13`
-
-## Why `pdm` and not `another-tool-here`?
-
-1. While `pip` is improving and is now able to do backtracking, it doesn't
-   ensure a lock file (requirements.txt) always up-to-date, nor the ability to
-   convert your code to a standalone pypi module uploadable to pypi.org 
-   effortless. Moreover, version constraints are hard to setup with `pip`
-2. Conda is slow and covers only a few packages, poetry and Pipenv are
-   slow, pip-tools reinvent the standard
 
 # Credits
 

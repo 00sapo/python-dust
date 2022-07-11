@@ -92,38 +92,6 @@ Gradient, that offer you some persistent directory but don't allow you to edit
 your home file persistently (they will erase them when your environment is
 killed).
 
-## How does this work?
-
-By using `python-dust`, you provides the user and yourself with an easy way to
-setup python and its dependencies in the exact way as you work, so that your
-code is always easily reproducible.
-
-This approach leverages two wonderful tools:
-
-* [`pdm`](https://github.com/pdm-project/pdm) which is able to efficiently
-  solve python dependencies and can store them in a directory named
-  `__pypackages__`, according to PEP 582, without even using virtualenvs. It's
-  like `poetry`, but better.
-
-* [`pyenv`](https://github.com/pyenv/pyenv) which can manage any python version
-  on the earth (or almost)
-
-`python-dust` simply allows to automatically download and install `pyenv` and
-`pdm` inside your project. Nothing is installed outside of it. Moving the
-project directory won't break anything. Removing the directory removes
-everything.
-
-This repo turns to be useful even for projects that must be run on remote
-servers or platforms such as Google Colab and Paperspace Gradient, because it
-allows you to install any python version on those servers in a persistent way
-(you won't need to re-install everything every times the environment is
-killed).
-
-Finally, you are not obliged to use `pdm` if you do not want to.`python-dust`
-correctly handles `pip` basic package manager. You won't need virtualenvs at
-all, because all the python installation is relative to your project directory!
-
-
 ## Usage
 
 Your interface to the Python installation is `./dust`. Internally, `dust`
@@ -183,13 +151,12 @@ installed and switch from one to the other:
 ./dust fly pyenv local 3.8.3
 ```
 
-A similar effect is achieved by using `./dust run` in `pdm` mode, but `./dust
-run` is slower, because it runs through `pdm` before of setting up `pyenv`. For
-instance, the following commands all achieve the same effect:
+A similar effect is achieved by using `./dust run` in `pdm` mode. Hence, the
+following two commands achieve the same effect:
 
 ```shell
-./dust run bash # in pdm mode, slower
-./dust fly bash # in pdm/pip mode, faster
+./dust run bash # in pdm mode only
+./dust fly bash # in both pdm and pip mode
 ```
 
 As in the example above, you could spawn a shell which uses your project's
@@ -198,9 +165,6 @@ with `pyenv` (e.g. if you have `pyenv` installed in your system like me), the
 above method doesn't work to spawn a shell. Instead you should use the provided
 command: `./dust shell`, which spawns a new instance of your current shell.
 Only fish and bash supported for now.
-
-Note that when you want to run a python interpreter in `pdm` mode you should
-still use `./dust run`, otherwise `__pypackages__` is not discovered.
 
 ### virtualenv vs `__pypackages__`
 
@@ -211,7 +175,7 @@ Note that if you switch to `pip` mode via `requirements.txt`, you
 don't need virtualenvs at all, because all the python installation is relative
 to this directory.
 
-## Uninstall
+### Uninstall
 
 To uninstall all the directories related to your project's Python installation,
 run:
@@ -221,7 +185,7 @@ run:
 This script is not tested and is not ensured that it really deletes all the
 directories created by `./install.sh`.
 
-## Editors
+### Editors
 
 In `pdm` mode, you should inform your editor that you're using the
 `__pypackages__` directory to store the libraries. You can find some [helpful
@@ -229,6 +193,8 @@ info
 here](https://pdm.fming.dev/latest/usage/pep582/#configure-ide-to-support-pep-582).
 
 I have not tested `pip` mode enough to give advice about editor configurations.
+
+In general, `./dust fly <editor-command>` should always work out-of-the box.
 
 ## Why `pdm` and not `put your favorite tool here`?
 
@@ -239,6 +205,39 @@ I have not tested `pip` mode enough to give advice about editor configurations.
 2. Conda is slow, not standard and covers only a few packages
 3. poetry and Pipenv are slow
 4. pip-tools reinvent the standard
+
+## How does this work?
+
+By using `python-dust`, you provides the user and yourself with an easy way to
+setup python and its dependencies in the exact way as you work, so that your
+code is always easily reproducible.
+
+This approach leverages two wonderful tools:
+
+* [`pdm`](https://github.com/pdm-project/pdm) which is able to efficiently
+  solve python dependencies and can store them in a directory named
+  `__pypackages__`, according to PEP 582, without even using virtualenvs. It's
+  like `poetry`, but better.
+
+* [`pyenv`](https://github.com/pyenv/pyenv) which can manage any python version
+  on the earth (or almost)
+
+`python-dust` simply allows to automatically download and install `pyenv` and
+`pdm` inside your project. Nothing is installed outside of it. Moving the
+project directory won't break anything. Removing the directory removes
+everything.
+
+This repo turns to be useful even for projects that must be run on remote
+servers or platforms such as Google Colab and Paperspace Gradient, because it
+allows you to install any python version on those servers in a persistent way
+(you won't need to re-install everything every times the environment is
+killed).
+
+Finally, you are not obliged to use `pdm` if you do not want to.`python-dust`
+correctly handles `pip` basic package manager. You won't need virtualenvs at
+all, because all the python installation is relative to your project directory!
+
+
 
 ## Develop
 

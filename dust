@@ -2,7 +2,9 @@
 
 # POSIX-compliant script for setting up your shell
 thisdir=$(realpath $(dirname $0))
-source ${thisdir}/pyenv/pyenv-source.sh $thisdir
+DUSTDIR=${thisdir}/dustenv
+PYENVDIR=${DUSTDIR}/pyenv
+source ${DUSTDIR}/pyenv-source.sh $PYENVDIR
 
 setup_pypackages() {
   if test $1 = "pdm"
@@ -32,10 +34,10 @@ then
   setup_pypackages $mode
   if test "$shell" = "fish"
   then
-    pyenv exec $shell -C "source ${thisdir}/pyenv/pyenv-source.fish $thisdir"
+    pyenv exec $shell -C "source ${DUSTDIR}/pyenv-source.fish $PYENVDIR"
   elif test "$shell" = "bash" 
   then
-    pyenv exec $shell --init-file <(echo "source ${thisdir}/pyenv/pyenv-source.sh $thisdir")
+    pyenv exec $shell --init-file <(echo "source ${DUSTDIR}/pyenv-source.sh $PYENVDIR")
   else
     echo "Sorry, we cannot spawn your shell: only fish and bash supported."
   fi

@@ -2,24 +2,14 @@
 thisdir=$(realpath $(dirname $0))
 
 # cloning pyenv
-LOCALREPO=${thisdir}/pyenv
+DUSTDIR=${thisdir}/dustenv
+PYENVDIR=${DUSTDIR}/pyenv
 REPOSRC=https://github.com/pyenv/pyenv.git
 
-cd $LOCALREPO
-# cloning while keeping our files
-git init 2> /dev/null
-if test ! $?
-then
-  git pull 2> /dev/null
-else
-  git remote add origin $REPOSRC
-  git fetch
-  git checkout origin/master -ft
-fi
-cd ${thisdir}
+git clone "$REPOSRC" "$LOCALREPO" 2> /dev/null || git -C "$LOCALREPO" pull
 
 # run setup script
-source ${thisdir}/pyenv/pyenv-source.sh $thisdir
+source ${DUSTDIR}/pyenv-source.sh $PYENVDIR
 
 # install the python version
 version=$1
@@ -99,7 +89,7 @@ echo "-------------------"
 echo "Installation Check:"
 found_python=$(pyenv exec which python)
 case "$found_python" in
-  $(realpath $thisdir)/pyenv/*)
+  $(realpath $PYENVDIR)*)
     echo "OK!"
     exit 0
     ;;

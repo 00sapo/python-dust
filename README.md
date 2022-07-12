@@ -37,7 +37,7 @@ This is a simple repo for automatizing the setup of many projects.
 It should work on any Unix-like system (Linux, Mac, etc.)
 
 * Option 1 (only Github): select the `use this template` above
-* Option 3: clone and deinit
+* Option 2: clone and deinit (or set your custom git url)
   ```
   git clone https://github.com/00sapo/pyenv <your-dir>
   rm -rf <your-dir>/.git*

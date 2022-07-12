@@ -21,6 +21,7 @@ if test -z $mode; then echo "Please, set a mode and/or run ./install.sh"; exit; 
 if test "$1" = "fly"
 then
   setup_pypackages $mode
+  echo $PYTHONPATH
   "${@:2}"
   exit
 fi
@@ -48,10 +49,12 @@ fi
 case $mode in
   "pdm")
     pdm "$@"
+    echo "updating requirements.txt"
     pdm export > requirements.txt 2>/dev/null
     ;;
   "pip")
     pyenv exec pip "$@"
+    echo "updating requirements.txt"
     pyenv exec pip freeze > requirements.txt 2>/dev/null
     ;;
   *)

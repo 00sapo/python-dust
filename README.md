@@ -164,7 +164,9 @@ python installation. However, if your shell has some init file that conflicts
 with `pyenv` (e.g. if you have `pyenv` installed in your system like me), the
 above method doesn't work to spawn a shell. Instead you should use the provided
 command: `./dust shell`, which spawns a new instance of your current shell.
-Only fish and bash supported for now.
+Note, that if you install packages inside a spawn shell without using `dust`,
+the `requirements.txt` won't be automatically updated. Only fish and bash
+supported for now.
 
 ### virtualenv vs `__pypackages__`
 
@@ -242,7 +244,7 @@ all, because all the python installation is relative to your project directory!
 ## Develop
 
 To test this project for development purpose, use the branch `develop` and test
-using the command `./test-dust ./install.sh 3.8.13`
+using the command `.dustenv//test-dust.sh ./install.sh 3.8.13`
 
 # Credits
 

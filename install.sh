@@ -6,7 +6,7 @@ DUSTDIR=${thisdir}/dustenv
 PYENVDIR=${DUSTDIR}/pyenv
 REPOSRC=https://github.com/pyenv/pyenv.git
 
-git clone "$REPOSRC" "$LOCALREPO" 2> /dev/null || git -C "$LOCALREPO" pull
+git clone "$REPOSRC" "$PYENVDIR" 2> /dev/null || git -C "$PYENVDIR" pull
 
 # run setup script
 source ${DUSTDIR}/pyenv-source.sh $PYENVDIR

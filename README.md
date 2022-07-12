@@ -54,6 +54,11 @@ During the installation, `pdm` will guide you through the setup of the project
 metadata, You should always chose a python executable that is inside the
 `pyenv` directory of your project, usually the number 0.
 
+Moreover, to allow users to install the package, we will answer "yes" when
+`pdm` ask us if we want to publish the project as a pip package. You if you
+answer "no", you can still manually add your project name and version in the
+`pyproject.toml` file.
+
 After the installation, a check is performed. If it should say "OK!".
 
 ### Develop
@@ -79,9 +84,9 @@ it. You can just create a readme saying the following:
 > ### Install this repo to use it in your code
 >
 >     # with pdm
->     pdm add git+https://github.com/<user>/<project>
+>     pdm add git+ssh://git@github.com/<user>/<project>.git
 >     # with pip
->     pip install git+https://github.com/<user>/<project>
+>     pip install git+ssh://git@github.com/<user>/<project>.git
 >
 
 The `./install.sh` will install all the dependencies needed, including the
@@ -127,7 +132,8 @@ Once you have run `./install.sh <your-python-version>`, you can switch from
 Of course, when using `pip`, you can redistribute your code exactly in the same
 way as in `pdm` mode, with the only exception that to make your code easily
 usable by other programmers via `pip install git+https://<your repo>` you
-should also create a `setup.py` file.
+should also create a `setup.py` file. With `pdm` mode, instead, you can just
+fill the `name` and `description` fields of the `pyproject.toml` file.
 
 In future, if `pip` will use `pyproject.toml` file by default and will use a
 continuously updated lock file, it should become the default.

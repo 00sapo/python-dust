@@ -67,24 +67,16 @@ case "$mode" in
     if test -f "pdm.lock"
     then
       pdm sync
-      import_requirements=0
     elif test -f "pyproject.toml"
     then
       pdm lock
       pdm sync
-      import_requirements=0
     else
       pdm init
-      import_requirements=1
     fi
     if test -f "requirements.txt"
     then
-      if $import_requirements
-      then
-        pdm import -f requirements requirements.txt
-      else
-        pdm run pip install -r requirements.txt
-      fi
+      pdm import -f requirements requirements.txt
     fi
     ;;
   *)

@@ -36,7 +36,7 @@ python -m pip install -U pip
 
 # set dust mode
 mode=$(cat ${thisdir}/.dust-mode 2>/dev/null)
-if test -n $mode
+if test -z $mode
 then
   mode="pdm"
   echo $mode > ${thisdir}/.dust-mode

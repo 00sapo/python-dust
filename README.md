@@ -16,13 +16,16 @@ This is a simple repo for automatizing the setup of many projects.
 
 ## TLDR
 
-### `pdm` mode
+### `pdm` mode (recommended)
 * `./install 3.8.13`: install Python 3.8.13 in a subdirectory of your project
 * `./dust add numpy scipy`: install numpy and scipy as dependencies
 * `./dust run ipython`: run a command (`ipython`) in the environment
 * `./dust shell`: run a shell with the python version set up
 * `./dust fly nvim`: run a command (`nvim`) with the python version set up (same as `run`)
-* another user `./install`: install Python 3.8.13, numpy and scipy, all in your project directory
+* `./dust run pip install pandas`: install a module using `pip` in parallel to the `pdm` 
+  installation; this is useful if `pdm` fails installing the package.
+* another user `./install`: install Python 3.8.13, numpy, scipy, and pandas,
+  all in your project directory
 
 ### `pip` mode
 * `./install 3.8.13`: install Python 3.8.13 in a subdirectory of your project
@@ -129,14 +132,21 @@ Once you have run `./install.sh <your-python-version>`, you can switch from
 1. `pdm` to `pip`: `echo pip > .dust-mode; ./install.sh`
 2. `pip` to `pdm`: `echo pdm > .dust-mode; ./install.sh`
 
+When switching mode, if `pdm` files do not exist, a new project is initialized
+and the `requirements.txt` file will be imported in the `pyproject.toml` file.
+Actually, you can do everything from `pdm` mode with `./dust run pip install`
+(see examples above). In this case, `install.sh` will install the
+`requirements.txt` without importing the modules in the `pyproject.toml` file.
+
 Of course, when using `pip`, you can redistribute your code exactly in the same
 way as in `pdm` mode, with the only exception that to make your code easily
 usable by other programmers via `pip install git+https://<your repo>` you
 should also create a `setup.py` file. With `pdm` mode, instead, you can just
 fill the `name` and `description` fields of the `pyproject.toml` file.
 
-In future, if `pip` will use `pyproject.toml` file by default and will use a
-continuously updated lock file, it should become the default.
+In future, if `pip` will use `pyproject.toml` file by
+default and will use a continuously updated lock file, it should become the
+default.
 
 ### pyenv management and shells
 

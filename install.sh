@@ -49,7 +49,6 @@ case "$mode" in
     then
       python -m pip install -r requirements.txt;
     fi
-    exit
     ;;
  "pdm")
     # install pdm

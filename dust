@@ -10,6 +10,8 @@ setup_pypackages() {
   if test $1 = "pdm"
   then
     export PYTHONPATH="$(pdm info --packages)/lib:$PYTHONPATH"
+  else
+    export PYTHONPATH="$(pyenv prefix)/lib:$PYTHONPATH"
   fi
 }
 
@@ -21,7 +23,6 @@ if test -z $mode; then echo "Please, set a mode and/or run ./install.sh"; exit; 
 if test "$1" = "fly"
 then
   setup_pypackages $mode
-  echo $PYTHONPATH
   "${@:2}"
   exit
 fi

@@ -138,6 +138,31 @@ fill the `name` and `description` fields of the `pyproject.toml` file.
 In future, if `pip` will use `pyproject.toml` file by default and will use a
 continuously updated lock file, it should become the default.
 
+In the rare cases where `pdm` mode fails installing a package, you can still
+use `pip` inside `pdm` in two ways:
+1. use `fly` and give up using `run`; this allows you to use `__pypackages__`
+   and only use the `pyenv` installation for installing packages via `pip`.
+   However, you won't be able to use `pdm` features connected with `run`, such
+   as [`pdm` scripts](https://pdm.fming.dev/latest/usage/scripts/)
+2. disable `__pypackages__` by creating a directory named `.venv` before of
+   running `./install.sh`; this is fully compatible with both `run` and `fly`,
+   but it doesn't use the `__pypackages__` folder.
+
+### Make `pdm` skip resolution dependency
+
+Sometimes it is useful to just install a package, without resolution dependency.
+In `pdm`, read the related [documentation](https://pdm.fming.dev/latest/usage/dependency/#solve-the-locking-failure).
+
+In short, you should put something like this in your `pyproject.toml` file.
+
+```toml
+[tool.pdm.overrides]
+asgiref = "3.2.10"  # exact version
+urllib3 = ">=1.26.2"  # version range
+pytz = "file:///${PROJECT_ROOT}/pytz-2020.9-py3-none-any.whl"  # absolute URL
+fairseq = "git+https://github.com/pytorch/fairseq@336942734c85791a90baa373c212d27e7c722662"  # git url
+```
+
 ### pyenv management and shells
 
 You can also run any command in the `pyenv` by using the special command `fly`.

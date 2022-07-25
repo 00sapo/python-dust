@@ -124,10 +124,7 @@ numpy in your project's python installation.
 `pip` modes, so that other researchers can easily interact with your code.
 
 Once you have run `./install.sh <your-python-version>`, you can switch from
-`pdm` to `pip` or from `pip` to `pdm`: 
-
-1. `pdm` to `pip`: `echo pip > .dust-mode; ./install.sh`
-2. `pip` to `pdm`: `echo pdm > .dust-mode; ./install.sh`
+`pdm` to `pip` or from `pip` to `pdm` with `./dust toggle`.
 
 Of course, when using `pip`, you can redistribute your code exactly in the same
 way as in `pdm` mode, with the only exception that to make your code easily

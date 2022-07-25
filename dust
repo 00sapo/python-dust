@@ -19,6 +19,24 @@ setup_pypackages() {
 mode=$(cat .dust-mode 2>/dev/null)
 if test -z $mode; then echo "Please, set a mode and/or run ./install.sh"; exit; fi
 
+if test "$1" = "toggle"
+then
+  case $mode in
+    "pdm")
+      mode="pip"
+      rm pyproject.toml
+      rm pdm.lock
+      rm .pdm.toml
+      ;;
+    "pip")
+      mode="pdm"
+      ;;
+  esac
+  echo $mode > .dust-mode
+  ./install.sh
+  exit
+fi
+
 # special command: shell
 if test "$1" = "fly"
 then

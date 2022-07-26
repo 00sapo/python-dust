@@ -79,7 +79,7 @@ case "$mode" in
     fi
     if test -f "requirements.txt"
     then
-      if $import_requirements
+      if [ "$import_requirements" = "1" ]
       then
         pdm import -f requirements requirements.txt
       else

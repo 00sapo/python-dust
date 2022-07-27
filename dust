@@ -37,15 +37,17 @@ then
   exit
 fi
 
-# special command: shell
+# backup status of installed packages for later
+pypackages_before=$(ls -lR ${thisdir}/__pypackages__/ 2>/dev/null)
+pyenv_before=$(ls -lR $(pyenv prefix)/lib/ 2>/dev/null)
+
+# special command: fly
 if test "$1" = "fly"
 then
   setup_pypackages $mode
   "${@:2}"
-  exit
-fi
-
-if test "$1" = "shell"
+# special command: shell
+elif test "$1" = "shell"
 then
   shell=$(cat /proc/$PPID/comm)
   # removing link (e.g. sh -> /usr/bin/bash)
@@ -61,23 +63,35 @@ then
   else
     echo "Sorry, we cannot spawn your shell: only fish and bash supported."
   fi
-  exit
+else
+  # run the command with pdm if it is installed
+  case $mode in
+    "pdm")
+      pdm "$@"
+      ;;
+    "pip")
+      pyenv exec pip "$@"
+      ;;
+    *)
+  esac
 fi
 
-# run the command with pdm if it is installed
-case $mode in
-  "pdm")
-    pdm "$@"
-    echo "updating requirements.txt"
-    pdm export > requirements.txt 2>/dev/null
-    ;;
-  "pip")
-    pyenv exec pip "$@"
-    echo "updating requirements.txt"
-    pyenv exec pip freeze > requirements.txt 2>/dev/null
-    ;;
-  *)
-esac
+# check if some package was modified
+pypackages_after=$(ls -lR ${thisdir}/__pypackages__/ 2>/dev/null)
+pyenv_after=$(ls -lR $(pyenv prefix)/lib/ 2>/dev/null)
+if [ "$pypackages_before" != "$pypackages_after" ] || [ "$pyenv_after" != "$pyenv_before" ]; then
+  echo "DUST MESSAGE: Detected changes, updating requirements.txt"
+  case $mode in
+    "pdm")
+      pdm export > requirements.txt 2>/dev/null
+      pyenv exec pip freeze >> requirements.txt 2>/dev/null
+      ;;
+    "pip")
+      pyenv exec pip freeze > requirements.txt 2>/dev/null
+      ;;
+    *)
+  esac
+fi
 
 if test $ERROR
 then

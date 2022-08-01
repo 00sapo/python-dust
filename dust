@@ -59,7 +59,11 @@ then
     pyenv exec $shell -C "source ${DUSTDIR}/pyenv-source.fish $PYENVDIR"
   elif test "$shell" = "bash" 
   then
-    pyenv exec $shell --init-file <(echo "source ${DUSTDIR}/pyenv-source.sh $PYENVDIR")
+    # <() is not posix-compliant, need to use a named pipe here
+    pipe_name=temp_pipe.$$
+    mkfifo $pipe_name
+    echo "source ${DUSTDIR}/pyenv-source.sh" > $pipe_name & pyenv exec $shell --init-file $pipe_name
+    rm $pipe_name
   else
     echo "Sorry, we cannot spawn your shell: only fish and bash supported."
   fi

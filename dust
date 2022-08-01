@@ -4,7 +4,7 @@
 thisdir=$(realpath $(dirname $0))
 DUSTDIR=${thisdir}/dustenv
 PYENVDIR=${DUSTDIR}/pyenv
-source ${DUSTDIR}/pyenv-source.sh $PYENVDIR
+. ${DUSTDIR}/pyenv-source.sh
 
 setup_pypackages() {
   if test $1 = "pdm"

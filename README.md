@@ -267,17 +267,6 @@ Finally, you are not obliged to use `pdm` if you do not want to.`python-dust`
 correctly handles `pip` basic package manager. You won't need virtualenvs at
 all, because all the python installation is relative to your project directory!
 
-## TODO
-
-Make installation of dependencies automatic (needed for gradient/colab and
-similar): 
-
-- libffi-dev
-- libbbz2-dev
-- libsqlite-dev
-- [...]
-
-
 ## Develop
 
 To test this project for development purpose, use the branch `develop` and test

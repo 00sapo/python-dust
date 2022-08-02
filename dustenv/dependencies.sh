@@ -16,7 +16,7 @@ check_command() {
 ask_yn() {
   # ask user if coninue or not prompting for detected distro ($1) and package manager ($2)
 
-  echo -n "It seems that you're using a $1-based distro. Dow you want to continue installing Python build dependencies using $2 package manager? [y/n] " >&2
+  echo -n "It seems that you're using a $1-based distro. Do you want to continue installing Python build dependencies using $2 package manager? [y/n] " >&2
   read -r option
   if test $option = "y" || test $option = "Y"
   then
@@ -26,7 +26,7 @@ ask_yn() {
   fi
 }
 
-install_depencies() {
+install_python_dust_dependencies() {
   # check package manager and installs dependencies
   if check_command "apt" || check_command "apt-get"
   then

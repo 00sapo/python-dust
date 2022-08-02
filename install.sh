@@ -25,7 +25,7 @@ fi
 
 # install dependencies
 . ${DUSTDIR}/dependencies.sh
-if ! install_python_dust_depencies
+if ! install_python_dust_dependencies
 then
   echo -n "Python dependencies were not installed correctly. Do you want to continue anyway? [y/n] "
   read -r option

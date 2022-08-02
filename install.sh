@@ -9,7 +9,7 @@ REPOSRC=https://github.com/pyenv/pyenv.git
 git clone "$REPOSRC" "$PYENVDIR" 2> /dev/null || git -C "$PYENVDIR" pull
 
 # run setup script
-. ${DUSTDIR}/pyenv-source.sh $PYENVDIR
+. ${DUSTDIR}/pyenv-source.sh
 
 # install the python version
 version=$1
@@ -21,6 +21,18 @@ then
     exit
   fi
   version=$(cat ${thisdir}/.python-version)
+fi
+
+# install dependencies
+. ${DUSTDIR}/dependencies.sh
+if ! install_python_dust_depencies
+then
+  echo -n "Python dependencies were not installed correctly. Do you want to continue anyway? [y/n] "
+  read -r option
+  if test $option != "y" && test $option != "Y"
+  then
+    exit
+  fi
 fi
 
 working_dir=$(pwd)

@@ -1,8 +1,8 @@
-if test "$1" = "./install.sh"
-then
-  rm -rf test
-  mkdir test
-fi
+# if test "$1" = "./install.sh"
+# then
+#   rm -rf test
+#   mkdir test
+# fi
 
 for i in $(ls)
 do

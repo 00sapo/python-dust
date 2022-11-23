@@ -231,7 +231,7 @@ In general, `./dust exec <editor-command>` should always work out-of-the box.
 ## Develop
 
 To test this project for development purpose, use the branch `develop` and test
-using the command `.dustenv//test-dust.sh ./install.sh 3.8.13`
+using the command `./dustenv/test-dust.sh ./install.sh 3.8.13`
 
 # Credits
 

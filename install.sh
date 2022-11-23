@@ -11,6 +11,9 @@ git clone "$REPOSRC" "$PYENVDIR" 2> /dev/null || git -C "$PYENVDIR" pull
 # run setup script
 . ${DUSTDIR}/pyenv-source.sh
 
+# import utilities
+. ${DUSTDIR}/common.sh
+
 if test "$1" = "list"
 then
   pyenv install -l
@@ -59,18 +62,11 @@ pyenv exec python -m pip install -U pdm
 pyenv exec pdm use $(pyenv which python)
 
 # install build dependencies
-if test -f "pyproject.toml"
+if test ! -f "pyproject.toml"
 then
-  pyenv exec pdm export -f requirements requirements.txt
-else
   pyenv exec pdm init --python $(pyenv prefix)/bin/python
-  pyenv exec pdm export -f requirements requirements.txt
 fi
-
-if test -f "requirements.txt"
-then
-  pyenv exec python -m pip install -r requirements.txt
-fi
+dust_sync
 
 # installation check
 echo "-------------------"

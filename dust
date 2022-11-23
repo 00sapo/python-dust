@@ -5,14 +5,11 @@ thisdir=$(realpath $(dirname $0))
 DUSTDIR=${thisdir}/dustenv
 PYENVDIR=${DUSTDIR}/pyenv
 . ${DUSTDIR}/pyenv-source.sh
+. ${DUSTDIR}/common.sh
 
 # setup_pypackages() {
 #   export PYTHONPATH="$(pyenv prefix)/lib:$PYTHONPATH"
 # }
-dust_sync() {
-  pyenv exec pdm export -f requirements requirements.txt
-  pyenv exec python -m pip install -r requirements.txt
-}
 
 # backup status of installed packages for later
 # pypackages_before=$(ls -lR ${thisdir}/__pypackages__/ 2>/dev/null)
@@ -78,15 +75,11 @@ if [ "$check_changes" = "1" ]
 then
   pyenv_after=$(ls -lR $(pyenv prefix)/lib/ 2>/dev/null)
   if  [ "$pyenv_after" != "$pyenv_before" ]; then
-    echo "DUST MESSAGE: Detected changes, do you want that we update requirements.txt and pyproject.toml? This will produce a very long and meaningless pyproject.toml! [y/n]"
-    read answer
-   # this grammar (the #[] operator) means that the variable $answer where any Y or y in
-   # 1st position will be dropped if they exist.
-    if [ "$answer" != "${answer#[Yy]}" ]
+    if ask_yn "DUST MESSAGE: Detected changes, do you want that we update requirements.txt and pyproject.toml? This will produce a very long and meaningless pyproject.toml! [y/n]"
     then
-      pyenv exec python -m pip freeze > requirements.txt 2>/dev/null
-      pyenv exec pdm import -f requirements requirements.txt
-      pyenv exec python -m pip install -r requirements.txt
+      dust_pip_export
+      dust_pdm_import
+      dust_pip_install
     fi
   fi
 fi

@@ -47,6 +47,26 @@ then
   pyenv exec "${@:2}"
   dust_sync
   check_changes=1
+elif test "$1" = "shell"
+then
+  shell=$(cat /proc/$PPID/comm)
+  # removing link (e.g. sh -> /usr/bin/bash)
+  shell=$(basename $(realpath $(which $shell))) 
+  # shell_command=$(cat /proc/$PPID/cmdline)
+  # setup_pypackages $mode
+  if test "$shell" = "fish"
+  then
+    pyenv exec $shell -C "source ${DUSTDIR}/pyenv-source.fish $PYENVDIR"
+  elif test "$shell" = "bash" 
+  then
+    # <() is not posix-compliant, need to use a named pipe here
+    pipe_name=temp_pipe.$$
+    mkfifo $pipe_name
+    echo "source ${DUSTDIR}/pyenv-source.sh" > $pipe_name & pyenv exec $shell --init-file $pipe_name
+    rm $pipe_name
+  else
+    echo "Sorry, we cannot spawn your shell: only fish and bash supported."
+  fi
 else
   # setup_pypackages
   pyenv exec python "$@"

@@ -39,6 +39,10 @@ then
   pyenv exec pdm "${@:2}"
   dust_sync
   check_changes=0
+elif test "$1" = "sync"
+then
+  dust_sync
+  check_changes=0
 elif test "$1" = "exec"
 then
   pyenv exec "${@:2}"

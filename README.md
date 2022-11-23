@@ -133,21 +133,6 @@ installation.
 As a consequence, you should never use `./dust pdm sync`, because it would install
 dependencies that will never be used.
 
-#### Make `pdm` skip resolution dependency
-
-Sometimes it is useful to just install a package, without resolution dependency.
-In `pdm`, read the related [documentation](https://pdm.fming.dev/latest/usage/dependency/#solve-the-locking-failure).
-
-In short, you should put something like this in your `pyproject.toml` file.
-
-```toml
-[tool.pdm.overrides]
-asgiref = "3.2.10"  # exact version
-urllib3 = ">=1.26.2"  # version range
-pytz = "file:///${PROJECT_ROOT}/pytz-2020.9-py3-none-any.whl"  # absolute URL
-fairseq = "git+https://github.com/pytorch/fairseq@336942734c85791a90baa373c212d27e7c722662"  # git url
-```
-
 #### Using `pip` directly
 
 You can also use `pip` directly, but it is discouraged. The reason is that if you use
@@ -160,6 +145,17 @@ To use pip directly, just run something like:
 ```
 ./dust -m pip install numpy
 ```
+
+#### Syncing
+
+Imagine you have edited the `pyproject.toml` file by hand. Now you need to install the
+new dependencies. You can use `./dust sync` for this.
+
+Note that `./dust sync` is different from `pdm sync`, because `pdm` tries to install
+packages in a virtualenv or in a `__pypackages__` directory, while `dust` install them
+in the root of the python installation via `pip`. Specifically, `./dust sync` will
+export the `pyproject.toml` to `requirements.txt` and then it will install it via
+`pip`.
 
 ### External commands and multiple python versions
 
@@ -197,6 +193,21 @@ without using `dust`, the `requirements.txt` won't be automatically updated soon
 only when you run the `exit` command.
 
 Only fish and bash supported for now.
+
+### Make `pdm` skip resolution dependency
+
+Sometimes it is useful to just install a package, without resolution dependency.
+In `pdm`, read the related [documentation](https://pdm.fming.dev/latest/usage/dependency/#solve-the-locking-failure).
+
+In short, you should put something like this in your `pyproject.toml` file.
+
+```toml
+[tool.pdm.overrides]
+asgiref = "3.2.10"  # exact version
+urllib3 = ">=1.26.2"  # version range
+pytz = "file:///${PROJECT_ROOT}/pytz-2020.9-py3-none-any.whl"  # absolute URL
+fairseq = "git+https://github.com/pytorch/fairseq@336942734c85791a90baa373c212d27e7c722662"  # git url
+```
 
 ### virtualenvs
 

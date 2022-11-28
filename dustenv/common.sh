@@ -11,7 +11,7 @@ dust_pip_export() {
 }
 
 dust_pip_install() {
-  pyenv exec python -m pip install -r requirements.txt
+  pyenv exec python -m pip install --upgrade -r requirements.txt
 }
 
 dust_sync() {

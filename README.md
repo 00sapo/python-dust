@@ -24,7 +24,7 @@ You will get projects that are:
 ## TLDR
 
 * `./install 3.8.13`: install Python 3.8.13 in a subdirectory of your project
-* `./dust add numpy scipy ipython`: install numpy and scipy as dependencies
+* `./dust add numpy scipy ipython`: install numpy, scipy, and ipython as dependencies
 * `./dust shell`: run a shell with the python version set up
 * `./dust exec vscode`: run a command (`nvim`) with the python version set up
 * another user `./install`: install Python 3.8.13, numpy, scipy, and ipython all in your project directory
@@ -138,13 +138,16 @@ dependencies that will never be used.
 You can also use `pip` directly, but it is discouraged. The reason is that if you use
 `pip`, we can easily update the `requirements.txt` file, but not the `pyproject.toml`
 file. Specifically, the `pyproject.toml` file will become a long list of dependencies
-(including the dependences of your dependencies) that is basically meaningless and is a
+(including the dependences of your dependencies) that is basically meaningless and is
 the exact reason why people use `pdm`, `poetry`, and similar.
 
 To use pip directly, just run something like:
 ```
 ./dust -m pip install numpy
 ```
+
+This may come useful for you if you want to provide special arguments for a specific
+package, e.g. `./dust -m pip install --force-reinstall git+https://your-get-repo.com/@commithash`.
 
 #### Syncing
 
@@ -156,6 +159,9 @@ packages in a virtualenv or in a `__pypackages__` directory, while `dust` instal
 in the root of the python installation via `pip`. Specifically, `./dust sync` will
 export the `pyproject.toml` to `requirements.txt` and then it will install it via
 `pip`.
+
+You can give any option that will then be used when installing via `pip`, e.g. `./dust
+sync --force-reinstall` will reinstall all the dependencies.
 
 ### External commands and multiple python versions
 

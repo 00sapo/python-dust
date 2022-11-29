@@ -215,10 +215,11 @@ pytz = "file:///${PROJECT_ROOT}/pytz-2020.9-py3-none-any.whl"  # absolute URL
 fairseq = "git+https://github.com/pytorch/fairseq@336942734c85791a90baa373c212d27e7c722662"  # git url
 ```
 
-### virtualenvs
+### Virtualenvs
 
 You don't need virtualenvs at all, because all the python installation is relative
-to this directory.
+to this directory. However, to keep compatibility with other softwares, `python-dust`
+creates a symbolic link to the internal `pyenv` virtualenv.
 
 ### Uninstall
 
@@ -232,7 +233,8 @@ directories created by `./install.sh`.
 
 ### Editors
 
-In general, `./dust exec <editor-command>` should always work out-of-the box.
+In general, you can point your editor to the `.venv` in your project directory. 
+Otherwise, `./dust exec <editor-command>` should always work out-of-the box.
 
 ## Why `pdm` and not `put your favorite tool here`?
 

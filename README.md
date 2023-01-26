@@ -231,6 +231,29 @@ run:
 This script is not tested and is not ensured that it really deletes all the
 directories created by `./install.sh`.
 
+## List of commands
+
+#### `./install.sh`
+
+| Arguments       | Effect                                                                                        |
+|-----------------|-----------------------------------------------------------------------------------------------|
+| No arguments    | Install python version from `.python-version` file or the default one (3.9.16), and support for scientific Intel packages from Anaconda servers (numpy, scipy, sklearn, etc.) |
+| `list`          | List available versions from `pyenv`                                                          |
+| `<any-version>` | Install version `<any-version>`, e.g. `3.8.9`                                                |
+
+#### `./dust`
+
+| Arguments       | Effect                                                                                        |
+|-----------------|-----------------------------------------------------------------------------------------------|
+| `add <package>` | add a package (with possible version contraint, see `pdm` docs) |
+| `remove <package>` |  remove a package |
+| `update` | update dependencies (see `pdm` docs) |
+| `pdm <command>` | execute any `pdm` command |
+| `sync` | export `pyproject.toml` into a `requirements.txt` and then install using `pip` |
+| `exec <command>` | exec any command using the virtualenv set up by `pyenv` |
+| `shell` | return a shell (`bash` or `fish`, depending on your current one) inside the virtualenv |
+| anything else | passed as argument to `python`, e.g. `./dust -m http.server 8000` or `./dust myscript.py`|
+
 ### Editors
 
 In general, you can point your editor to the `.venv` in your project directory. 
@@ -243,14 +266,14 @@ Otherwise, `./dust exec <editor-command>` should always work out-of-the box.
    convert your code to a standalone pypi module uploadable to pypi.org 
    effortless, nor the ability to automatically compute version constraints for the
    dependencies.
-2. Conda is slow, not standard and covers only a few packages
+2. Conda is slow, not standard, and convicts your users to use conda as well (lock-in)
 3. poetry and Pipenv are slow and are not fully standard
 4. pip-tools reinvent the standard
 
 ## Develop
 
 To test this project for development purpose, use the branch `develop` and test
-using the command `./dustenv/test-dust.sh ./install.sh 3.8.13`
+using the command `./dustenv/test-dust.sh ./install.sh`
 
 # Credits
 

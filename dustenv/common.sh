@@ -16,7 +16,7 @@ dust_pip_install() {
 
 dust_sync() {
   dust_pdm_export
-  dust_pip_install "${@:}"
+  dust_pip_install
 }
 
 # Regular Colors

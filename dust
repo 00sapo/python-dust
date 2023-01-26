@@ -1,3 +1,4 @@
+#!/bin/env sh
 # POSIX-compliant script for setting up your shell
 thisdir=$(realpath $(dirname $0))
 DUSTDIR=${thisdir}/dustenv
@@ -39,7 +40,7 @@ then
   check_changes=0
 elif test "$1" = "sync"
 then
-  dust_sync "${@:2}"
+  dust_sync
   check_changes=0
 elif test "$1" = "exec"
 then

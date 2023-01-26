@@ -46,6 +46,9 @@ elif test "$1" = "exec"
 then
   pyenv exec "${@:2}"
   check_changes=1
+elif test "$1" = "setup_intel"
+  echo -e "${BGreen}${On_Black}Setting-up intel mirrors!$NC"
+  setup_intel_mirrors
 elif test "$1" = "shell"
 then
   shell=$(cat /proc/$PPID/comm)

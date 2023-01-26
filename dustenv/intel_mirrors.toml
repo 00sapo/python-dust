@@ -1,0 +1,12 @@
+[[tool.pdm.source]]
+url = "https://pypi.anaconda.org/intel/simple"
+verify_ssl = true
+name = "intel"
+
+[[tool.pdm.source]]
+url = "https://pypi.org"
+verify_ssl = true
+name = "pypi"
+
+[[tool.pdm.resolution]]
+respect-source-order = true

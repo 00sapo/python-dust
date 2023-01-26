@@ -3,13 +3,16 @@
 _Make your research reproducible effortless._
 
 This is an interface to [pyenv](https://github.com/pyenv/pyenv) and
-[pdm](https://github.com/pdm-project/pdm) to allow fully-isolated python environments.
+[pdm](https://github.com/pdm-project/pdm) to allow fully-isolated python environments
+specifically designed with scientific research and re-usability.
 
 You will get projects that are:
 * installable by newbies with a single command
-* installable via `pip git+https://etc.etc.`
+* installable via `pip git+https://etc.etc.` (thus indipendently from the package
+  manager)
 * completely relocatable (including the python binary)
 * easy to maintain even with complex dependencies
+* accelerated by the INTEL python libraries (as anaconda)
 
 ## Why?
 
@@ -23,8 +26,9 @@ You will get projects that are:
 
 ## TLDR
 
-* `./install 3.8.13`: install Python 3.8.13 in a subdirectory of your project
+* `./install`: install Python 3.9.16 in a subdirectory of your project
 * `./dust add numpy scipy ipython`: install numpy, scipy, and ipython as dependencies
+  from the INTEL repositories on anaconda
 * `./dust shell`: run a shell with the python version set up
 * `./dust exec vscode`: run a command (`nvim`) with the python version set up
 * another user `./install`: install Python 3.8.13, numpy, scipy, and ipython all in your project directory
@@ -252,6 +256,8 @@ directories created by `./install.sh`.
 | `sync` | export `pyproject.toml` into a `requirements.txt` and then install using `pip` |
 | `exec <command>` | exec any command using the virtualenv set up by `pyenv` |
 | `shell` | return a shell (`bash` or `fish`, depending on your current one) inside the virtualenv |
+| `setup_intel` | set up the INTEL mirrors from anaconda so that scientific packages
+such numpy, scipy, and sklearn benefits from accelerated libraries |
 | anything else | passed as argument to `python`, e.g. `./dust -m http.server 8000` or `./dust myscript.py`|
 
 ### Editors

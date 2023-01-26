@@ -19,6 +19,11 @@ dust_sync() {
   dust_pip_install
 }
 
+setup_intel_mirrors() {
+  echo -e "${BGreen}${On_Black}Setting-up intel mirrors!$NC"
+  cat pyproject.toml dustenv/intel_mirrors.toml > pyproject.toml
+}
+
 # Regular Colors
 Black='\033[0;30m'        # Black
 Red='\033[0;31m'          # Red

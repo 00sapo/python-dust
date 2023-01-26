@@ -23,6 +23,7 @@ then
 fi
 
 # install the python version
+setup_intel=0
 version=$1
 if test -z $version
 then
@@ -31,6 +32,7 @@ then
     echo -e "${BGreen}${On_Black}Version not provided, using default: $default_version${NC}"
     version=$default_version
     echo $version > ${thisdir}/.python-version
+    setup_intel=1
   fi
   version=$(cat ${thisdir}/.python-version)
 fi
@@ -69,7 +71,6 @@ if test ! -f "pyproject.toml"
 then
   pyenv exec pdm init --python $(pyenv prefix)/bin/python
 fi
-dust_sync
 
 # create .venv link
 if test -d .venv
@@ -80,6 +81,11 @@ if test ! -e .venv
 then
   venv_dir=$(realpath --relative-to="${PWD}" "$(pyenv prefix)")
   ln -s "$venv_dir" .venv
+fi
+
+if test setup_intel
+then
+  setup_intel_mirrors
 fi
 
 # installation check

@@ -1,5 +1,6 @@
 #!/bin/env sh
 thisdir=$(realpath $(dirname $0))
+default_version=3.9.16
 
 # cloning pyenv
 DUSTDIR=${thisdir}/dustenv
@@ -26,8 +27,8 @@ if test -z $version
 then
   if test ! -f ${thisdir}/.python-version
   then
-    echo -e "${BGreen}${On_Black}Version not provided, using default: 3.9.16${NC}"
-    version=3.9.16
+    echo -e "${BGreen}${On_Black}Version not provided, using default: $default_version${NC}"
+    version=$default_version
     echo $version > ${thisdir}/.python-version
   fi
   version=$(cat ${thisdir}/.python-version)

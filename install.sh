@@ -26,8 +26,8 @@ if test -z $version
 then
   if test ! -f ${thisdir}/.python-version
   then
-    echo "Please, provide the Python version to be installed!"
-    exit
+    echo "${BGreen}${On_Black}Version not provided, using default: 3.9.16${NC}"
+    version=3.9.16
   fi
   version=$(cat ${thisdir}/.python-version)
 fi

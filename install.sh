@@ -26,8 +26,9 @@ if test -z $version
 then
   if test ! -f ${thisdir}/.python-version
   then
-    echo "${BGreen}${On_Black}Version not provided, using default: 3.9.16${NC}"
+    echo -e "${BGreen}${On_Black}Version not provided, using default: 3.9.16${NC}"
     version=3.9.16
+    echo $version > ${thisdir}/.python-version
   fi
   version=$(cat ${thisdir}/.python-version)
 fi

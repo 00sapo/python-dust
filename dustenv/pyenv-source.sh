@@ -19,3 +19,5 @@ then
 else
   ERROR=1
 fi
+
+export PS1="(dust $(pyenv version-name)) $PS1"

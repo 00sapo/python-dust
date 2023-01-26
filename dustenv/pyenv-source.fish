@@ -10,3 +10,8 @@ if test "$pyenv_bin" != "$should_be_pyenv_bin"
   status is-login; and pyenv init --path | source
   source (pyenv init - | psub)
 end
+
+function fish_right_prompt
+  set pythonversion (pyenv version-name)
+  printf "(dust - $pythonversion)"
+end

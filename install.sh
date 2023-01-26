@@ -69,8 +69,11 @@ fi
 dust_sync
 
 # create .venv link
-venv_dir=$(realpath --relative-to="${PWD}" "$(pyenv prefix)")
-ln -s "$venv_dir" .venv
+if test ! -e ".venv"
+then
+  venv_dir=$(realpath --relative-to="${PWD}" "$(pyenv prefix)")
+  ln -s "$venv_dir" .venv
+fi
 
 # installation check
 echo "-------------------"

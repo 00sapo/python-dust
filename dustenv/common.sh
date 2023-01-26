@@ -21,7 +21,7 @@ dust_sync() {
 
 setup_intel_mirrors() {
   echo -e "${BGreen}${On_Black}Setting-up intel mirrors!$NC"
-  cat pyproject.toml dustenv/intel_mirrors.toml > pyproject.toml
+  cat dustenv/intel_mirrors.toml >> pyproject.toml
 }
 
 # Regular Colors
@@ -61,6 +61,10 @@ ask_yn() {
   echo -e
   echo -e -n "${BBlue}${On_White}$@${NC} " >&2
   read -r option
+  if test -z "$option"
+  then
+    option="n"
+  fi
   if test $option = "y" || test $option = "Y"
   then
     return 0

@@ -74,6 +74,7 @@ fi
 
 # create .venv link
 if test -d .venv
+then
   # user tried to create a virtualenv in the pdm prompt
   rm -r .venv
 fi

@@ -47,7 +47,7 @@ then
   pyenv exec "${@:2}"
   check_changes=1
 elif test "$1" = "setup_intel"
-  echo -e "${BGreen}${On_Black}Setting-up intel mirrors!$NC"
+then
   setup_intel_mirrors
 elif test "$1" = "shell"
 then
@@ -70,7 +70,7 @@ then
     echo -e "${BRed}Sorry, we cannot spawn your shell: only fish and bash supported.${NC}"
   fi
 else
-  # setup_pypackages
+  echo -e "$BGreen$On_Black Command not recognised, sending it to Python!$NC"
   pyenv exec python "$@"
   check_changes=1
 fi
@@ -82,7 +82,7 @@ then
   if  [ "$pyenv_after" != "$pyenv_before" ]; then
     echo -e
     echo -e
-    if ask_yn "DUST MESSAGE: Detected changes, do you want that we update requirements.txt and pyproject.toml? This will produce a very long and meaningless pyproject.toml! [y/n]"
+    if ask_yn "DUST MESSAGE: Detected changes, do you want that we update requirements.txt and pyproject.toml? This will produce a very long and meaningless pyproject.toml! [y/N]"
     then
       dust_pip_export
       dust_pdm_import

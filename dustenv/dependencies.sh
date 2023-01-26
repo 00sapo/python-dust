@@ -2,10 +2,10 @@
 check_command() {
   # check if command $1 exists in PATH
   command_type=$(type "$1" 2>&1)
-  if echo "$command_type" | grep -q "not found"
+  if echo -e "$command_type" | grep -q "not found"
   then
     return 1
-  elif echo "$command_type" | grep -q "alias"
+  elif echo -e "$command_type" | grep -q "alias"
   then
     return 1
   else
@@ -88,7 +88,7 @@ install_python_dust_dependencies() {
     then 
       sudo apk add --no-cache git bash build-base libffi-dev openssl-dev bzip2-dev zlib-dev xz-dev readline-dev sqlite-dev tk-dev
       return $?
-      if echo $version | grep -q "3.7"
+      if echo -e $version | grep -q "3.7"
       then
         apk add linux-headers 
         return $?
@@ -104,7 +104,7 @@ install_python_dust_dependencies() {
     fi
 
   else
-    echo "Sorry, we cannot detect your package manager. Please, install the Python build dependencies by yourself. For more info visit https://github.com/pyenv/pyenv/wiki"
+    echo -e "${BGreen}Sorry, we cannot detect your package manager. Please, install the Python build dependencies by yourself. For more info visit https://github.com/pyenv/pyenv/wiki${NC}"
     return 1
 
   fi

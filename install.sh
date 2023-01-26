@@ -82,11 +82,11 @@ echo "Installation Check:"
 found_python=$(pyenv exec which python)
 case "$found_python" in
   $(realpath $PYENVDIR)*)
-    echo "OK!"
+    echo "$BGreen OK! $NC"
     exit 0
     ;;
   *)
-    echo "ERROR!"
+    echo "$BRed ERROR! $NC"
     exit 1
     ;;
 esac

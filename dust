@@ -60,10 +60,10 @@ then
     # <() is not posix-compliant, need to use a named pipe here
     pipe_name=temp_pipe.$$
     mkfifo $pipe_name
-    echo "source ${DUSTDIR}/pyenv-source.sh" > $pipe_name & pyenv exec $shell --init-file $pipe_name
+    echo -e "source ${DUSTDIR}/pyenv-source.sh" > $pipe_name & pyenv exec $shell --init-file $pipe_name
     rm $pipe_name
   else
-    echo "Sorry, we cannot spawn your shell: only fish and bash supported."
+    echo -e "${BRed}Sorry, we cannot spawn your shell: only fish and bash supported.${NC}"
   fi
 else
   # setup_pypackages
@@ -76,6 +76,8 @@ if [ "$check_changes" = "1" ]
 then
   pyenv_after=$(ls -lR $(pyenv prefix)/lib/ 2>/dev/null)
   if  [ "$pyenv_after" != "$pyenv_before" ]; then
+    echo -e
+    echo -e
     if ask_yn "DUST MESSAGE: Detected changes, do you want that we update requirements.txt and pyproject.toml? This will produce a very long and meaningless pyproject.toml! [y/n]"
     then
       dust_pip_export
@@ -87,6 +89,6 @@ fi
 
 if test $ERROR
 then
-  echo "Some error happened! Have you run 'install.sh'?"
+  echo -e "Some error happened! Have you run 'install.sh'?"
   exit 1
 fi

@@ -7,6 +7,7 @@ DUSTDIR=${thisdir}/dustenv
 PYENVDIR=${DUSTDIR}/pyenv
 REPOSRC=https://github.com/pyenv/pyenv.git
 
+# cloning and pulling (in case we had already cloned)
 git clone "$REPOSRC" "$PYENVDIR" 2> /dev/null || git -C "$PYENVDIR" pull
 
 # run setup script
@@ -71,7 +72,11 @@ fi
 dust_sync
 
 # create .venv link
-if test ! -e ".venv"
+if test -d .venv
+  # user tried to create a virtualenv in the pdm prompt
+  rm -r .venv
+fi
+if test ! -e .venv
 then
   venv_dir=$(realpath --relative-to="${PWD}" "$(pyenv prefix)")
   ln -s "$venv_dir" .venv
@@ -84,11 +89,11 @@ echo "Installation Check:"
 found_python=$(pyenv exec which python)
 case "$found_python" in
   $(realpath $PYENVDIR)*)
-    echo "$BGreen OK! $NC"
+    echo -e "$BGreen OK! $NC"
     exit 0
     ;;
   *)
-    echo "$BRed ERROR! $NC"
+    echo -e "$BRed ERROR! $NC"
     exit 1
     ;;
 esac

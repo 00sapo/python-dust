@@ -189,20 +189,21 @@ installed and switch from one to the other:
 
 ### Shells
 
-As in the example above, you could spawn a shell which uses your project's
-python installation:
-```
-./dust exec bash
-```
-
-However, if your shell has some init file that conflicts with `pyenv` (e.g. if you have
-`pyenv` installed in your system like me), the above method doesn't work to spawn a
-shell. Instead you should use the provided command: `./dust shell`, which spawns a new
+To spawn a shell, you should use the provided command: `./dust shell`, which spawns a new
 instance of your current shell. Note, that if you install packages inside a spawn shell
 without using `dust`, the `requirements.txt` won't be automatically updated soon, but
 only when you run the `exit` command.
 
 Only fish and bash supported for now.
+
+As in the example above, you could spawn a shell which uses your project's
+python installation:
+```
+./dust exec bash
+```
+However, if your shell has some init file that conflicts with `pyenv` (e.g. if you have
+`pyenv` installed in your system like me), the above method doesn't work to spawn a
+shell.
 
 ### Make `pdm` skip resolution dependency
 
@@ -234,6 +235,15 @@ run:
 
 This script is not tested and is not ensured that it really deletes all the
 directories created by `./install.sh`.
+
+### `pre_install` and `post_install` hooks
+
+If your dependencies include software not installable via pip, `python-dust`
+offers the option of running shell scripts before or after the installation
+process. Specifically, you should add scripts to the folders
+`./dustenv/pre_install.d/` and `./dustenv/post_install.d/`. The scripts will be
+executed in alphabetical order, so you can name them like
+`00_myscript.sh`.
 
 ## List of commands
 

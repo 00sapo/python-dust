@@ -16,6 +16,9 @@ git clone "$REPOSRC" "$PYENVDIR" 2> /dev/null || git -C "$PYENVDIR" pull
 # import utilities
 . ${DUSTDIR}/common.sh
 
+# run pre_install.d
+run_hook pre_install
+
 if test "$1" = "list"
 then
   pyenv install -l
@@ -104,4 +107,8 @@ case "$found_python" in
     exit 1
     ;;
 esac
+
+# run post_install.d
+run_hook post_install
+
 cd $pwd

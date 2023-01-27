@@ -72,3 +72,14 @@ ask_yn() {
     return 1
   fi
 }
+
+run_hook() {
+  hook_dir="${DUSTDIR}/${1}.d/"
+  if test -d "$hook_dir"
+  then
+    for i in $(ls $hook_dir/*.sh)
+    do
+      sh $i
+    done
+  fi
+}

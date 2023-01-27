@@ -11,6 +11,27 @@ dust_pip_export() {
 }
 
 dust_pip_install() {
+  # change requirements.txt to point towards the intel file on anaconda
+  using_intel=$(grep "url = \"https://pypi.anaconda.org/intel/simple\"" pyproject.toml 2>&1 1>/dev/null)
+  if test "$?"
+  then
+    intel_packages='numpy scipy numba'
+    # intel also offers tesorflow but only for very old python (3.6)
+    for package in $intel_packages:
+    do
+      version=$(grep -zoP "name = \"$package\"\nversion = \"\K.*(?=\")" pdm.lock | tr -d '\0')
+      pv=$(pyenv exec python --version | grep -oP 'Python 3.\K.')
+      unameOut="$(uname -s)"
+      case "${unameOut}" in
+          Linux*)     os='manylinux2014';;
+          *)          continue;;
+      esac
+      echo ${machine}
+      sed -i "/$package.*/c\https:\/\/pypi.anaconda.org\/intel\/simple\/$package\/$version\/$package-$version-0-cp3$pv-cp3$pv-${os}_x86_64.whl" requirements.txt
+    done
+  fi
+
+  # installing from requirements
   pyenv exec python -m pip install --upgrade -r requirements.txt
 }
 

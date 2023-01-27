@@ -12,7 +12,7 @@ You will get projects that are:
   manager)
 * completely relocatable (including the python binary)
 * easy to maintain even with complex dependencies
-* accelerated by the INTEL python libraries (as anaconda) - on Linux only
+* accelerated by the INTEL python libraries (as anaconda)
 
 ## Why?
 
@@ -89,7 +89,8 @@ Assume that now you distribute your code and want that other researchers use
 it. You can just create a readme saying the following:
 
 > ### Set-up to reproduce results
-> Simply run: `./install.sh` from the repo root directory
+> 1. Install Linux, WSL, or Mac OS
+> 2. Simply run: `./install.sh` from the repo root directory
 >
 > ### Install this repo to use it in your code
 >

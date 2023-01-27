@@ -12,7 +12,7 @@ You will get projects that are:
   manager)
 * completely relocatable (including the python binary)
 * easy to maintain even with complex dependencies
-* accelerated by the INTEL python libraries (as anaconda)
+* accelerated by the INTEL python libraries (as anaconda) - on Linux only
 
 ## Why?
 
@@ -251,7 +251,7 @@ executed in alphabetical order, so you can name them like
 
 | Arguments       | Effect                                                                                        |
 |-----------------|-----------------------------------------------------------------------------------------------|
-| No arguments    | Install python version from `.python-version` file or the default one (3.9.16), and support for scientific Intel packages from Anaconda servers (numpy, scipy, sklearn, etc.) |
+| No arguments    | Install python version from `.python-version` file or the default one (3.9.16), and support for scientific Intel packages from Anaconda servers (numpy, scipy, numba) |
 | `list`          | List available versions from `pyenv`                                                          |
 | `<any-version>` | Install version `<any-version>`, e.g. `3.8.9`                                                |
 
@@ -266,8 +266,8 @@ executed in alphabetical order, so you can name them like
 | `sync` | export `pyproject.toml` into a `requirements.txt` and then install using `pip` |
 | `exec <command>` | exec any command using the virtualenv set up by `pyenv` |
 | `shell` | return a shell (`bash` or `fish`, depending on your current one) inside the virtualenv |
-| `setup_intel` | set up the INTEL mirrors from anaconda so that scientific packages
-such numpy, scipy, and sklearn benefits from accelerated libraries |
+| `setup_intel` | set up the INTEL mirrors from anaconda so that 
+numpy, scipy, and numba benefit from accelerated libraries |
 | anything else | passed as argument to `python`, e.g. `./dust -m http.server 8000` or `./dust myscript.py`|
 
 ### Editors

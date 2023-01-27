@@ -1,12 +1,20 @@
+
+########################################
+# These lines are added by python-dust
+# remove them to remove the intel mirrors
+# Typical cases are:
+# * package version incompatibilities
+# * not enough space on the dis
 [[tool.pdm.source]]
 url = "https://pypi.anaconda.org/intel/simple"
 verify_ssl = true
 name = "intel"
 
 [[tool.pdm.source]]
-url = "https://pypi.org"
+url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
-[[tool.pdm.resolution]]
+[tool.pdm.resolution]
 respect-source-order = true
+########################################
